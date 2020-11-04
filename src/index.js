@@ -24,6 +24,9 @@ function getLoginInfo() {
   const username = 'customer19';
   const password = 'overlook2020';
   //----------------------//
+
+  if (username === 'manager' )
+
   const userId = parseInt(username.slice(8, username.length));
   if (1 > userId || userId > 50) {
     alert(`Username '${username}' is not valid.`);
