@@ -12,8 +12,15 @@ let hotel = {
       && booking.roomNumber === roomNum));
   },
 
-  roomsAvailableOnDate(date) {
-    return this.roomInfo.filter(room => !this.findRoomBooked(date, room.number));
+  getRoomAvailabilities(date) {
+    return this.roomInfo.map(room => {
+      if (this.findRoomBooked(date, room.number)) {
+        room.available = false;
+      } else {
+        room.available = true;
+      }
+      return room;
+    })
   },
 
   filterRoomsByType(rooms, type) {

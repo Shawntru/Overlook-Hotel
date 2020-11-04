@@ -6,26 +6,33 @@ import './images/turing-logo.png'
 
 import { fetchData } from './fetch.js';
 import { hotel } from './hotel';
+import User from './User';
+
+let currentUser;
 
 window.onload = initializeSite();
 
 async function initializeSite() {
   await hotel.getHotelData();
-  let userList = await fetchData('users');
-  console.log(userList);
+  console.log(hotel.getRoomAvailabilities("2020/01/24"));
   getLoginInfo();
 }
 
 function getLoginInfo() {
   // Query DOM elements for user input, check password
   // Will use temp username and pass set below:
-  const username = 'customer10';
+  const username = 'customer37';
   const password = 'overlook2020';
-  const userId = parseInt(username.slice(8,10));
-  if (1 > userId > 50) alert('Need valid username');
+  //----------------------//
+  const userId = parseInt(username.slice(8, username.length));
+  if (1 > userId || userId > 50) {
+    alert(`Username '${username}' is not valid.`);
+    return
+  }
   loginUser(userId);
 }
 
-function loginUser(userId) {
-  console.log('Logged in as user ' + userId);
+async function loginUser(userId) {
+  let userList = await fetchData('users');
+  currentUser = new User(userId, userList);
 }
