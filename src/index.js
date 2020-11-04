@@ -12,6 +12,7 @@ window.onload = initializeSite();
 async function initializeSite() {
   await hotel.getHotelData();
   let userList = await fetchData('users');
+  console.log(hotel.roomsAvailableOnDate('2020/01/24'));
   getLoginInfo();
 }
 
