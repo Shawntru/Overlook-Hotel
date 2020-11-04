@@ -6,7 +6,6 @@ class User {
     this.name = this.findUserName(userList);
     this.bookings = this.getListOfBookings();
     this.totalSpent = this.calculateRoomSpending();
-    console.log(this);
   }
 
   findUserName(userList) {

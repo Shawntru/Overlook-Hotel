@@ -10,32 +10,37 @@ import User from './User';
 
 let currentUser;
 
-window.onload = initializeSite();
+window.onload = fetchSiteData();
 
-async function initializeSite() {
-  await hotel.getHotelData();
-  // console.log(hotel.getRoomAvailabilities("2020/01/24"));
-  getLoginInfo();
+function fetchSiteData() {
+  Promise.all([fetchData('rooms'), fetchData('bookings'), fetchData('users')])
+    .then(value => {
+      hotel.roomInfo = value[0];
+      hotel.bookingInfo = value[1];
+      getLoginInfo(value[2]);
+    })
 }
 
-function getLoginInfo() {
+function getLoginInfo(userList) {
   // Query DOM elements for user input, check password
   // Will use temp username and pass set below:
   const username = 'customer19';
   const password = 'overlook2020';
   //----------------------//
 
-  if (username === 'manager' )
-
-  const userId = parseInt(username.slice(8, username.length));
-  if (1 > userId || userId > 50) {
-    alert(`Username '${username}' is not valid.`);
+  if (username === 'manager' && password === 'overlook2020') {
+    loginManager(userList);
     return;
   }
-  loginUser(userId);
+  const userId = parseInt(username.slice(8, username.length));
+  if ((username.slice(0, 8) != 'customer') 
+    || (1 > userId || userId > 50)) {
+    alert('Login not valid');
+    return;
+  } else { loginUser(userId, userList) };
 }
 
-async function loginUser(userId) {
-  let userList = await fetchData('users');
+function loginUser(userId, userList) {
   currentUser = new User(userId, userList);
+  console.log(currentUser);
 }
