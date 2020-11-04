@@ -14,20 +14,20 @@ window.onload = initializeSite();
 
 async function initializeSite() {
   await hotel.getHotelData();
-  console.log(hotel.getRoomAvailabilities("2020/01/24"));
+  // console.log(hotel.getRoomAvailabilities("2020/01/24"));
   getLoginInfo();
 }
 
 function getLoginInfo() {
   // Query DOM elements for user input, check password
   // Will use temp username and pass set below:
-  const username = 'customer37';
+  const username = 'customer19';
   const password = 'overlook2020';
   //----------------------//
   const userId = parseInt(username.slice(8, username.length));
   if (1 > userId || userId > 50) {
     alert(`Username '${username}' is not valid.`);
-    return
+    return;
   }
   loginUser(userId);
 }

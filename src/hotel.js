@@ -14,11 +14,7 @@ let hotel = {
 
   getRoomAvailabilities(date) {
     return this.roomInfo.map(room => {
-      if (this.findRoomBooked(date, room.number)) {
-        room.available = false;
-      } else {
-        room.available = true;
-      }
+      room.available = !!(!this.findRoomBooked(date, room.number));
       return room;
     })
   },
