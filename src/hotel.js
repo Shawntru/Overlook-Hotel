@@ -16,6 +16,10 @@ let hotel = {
     return this.roomInfo.filter(room => !this.findRoomBooked(date, room.number));
   },
 
+  filterRoomsByType(rooms, type) {
+    return rooms.filter(room => room.roomType === type);
+  }
+
 } 
 
 export { hotel };
