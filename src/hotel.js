@@ -20,4 +20,4 @@ let hotel = {
 
 } 
 
-export { hotel };
+export default hotel;
