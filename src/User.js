@@ -4,25 +4,25 @@ class User {
   constructor (userId, userList) {
     this.id = userId;
     this.name = this.findUserName(userList);
-    this.bookings = this.getListOfBookings();
-    this.totalSpent = this.calculateRoomSpending();
+    this.bookings = this.getListOfBookings(this.id);
+    this.totalSpent = this.calculateRoomSpending(this.id);
   }
 
   findUserName(userList) {
     if (this.id === 'Manager') return 'Manager';
-    return userName =  userList.find(user => this.id === user.id).name;
+    return userList.find(user => this.id === user.id).name;
   }
 
-  getListOfBookings() {
+  getListOfBookings(userId) {
     return hotel.bookingInfo
-      .filter(booking => booking.userID === this.id);
+      .filter(booking => booking.userID === userId);
   }
 
-  calculateRoomSpending() {
-    let spending = this.getListOfBookings()
+  calculateRoomSpending(userId) {
+    let spending = this.getListOfBookings(userId)
       .map(booking => booking.costPerNight = hotel.roomInfo
-        .find(room => room.number === booking.roomNumber))
-      .reduce((sum, room) => {return sum += room.costPerNight}, 0)
+        .find(room => room.number === booking.roomNumber).costPerNight)
+      .reduce((sum, cost) => {return sum += cost}, 0)
     return (Math.round(spending * 100) / 100);
   }
 }

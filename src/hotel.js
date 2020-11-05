@@ -1,5 +1,3 @@
-import { fetchData } from './fetch';
-
 let hotel = {
   roomInfo: [],
   bookingInfo: [],
