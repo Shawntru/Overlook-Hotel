@@ -25,7 +25,7 @@ function fetchSiteData() {
 function getLoginInfo(userList) {
   // Query DOM elements for user input, check password
   // Will use temp username and pass set below:
-  const username = 'manager';
+  const username = 'customer20';
   const password = 'overlook2020';
   //----------------------//
 

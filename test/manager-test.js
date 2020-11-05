@@ -18,6 +18,6 @@ describe('Manager Class Extension', function() {
   });
 
   it('should be an extension of the User class', function() {
-    expect
+    
   })
 })
