@@ -7,6 +7,7 @@ import './images/turing-logo.png'
 import { fetchData } from './fetch.js';
 import { hotel } from './hotel';
 import User from './User';
+import Manager from './Manager';
 
 let currentUser;
 
@@ -24,7 +25,7 @@ function fetchSiteData() {
 function getLoginInfo(userList) {
   // Query DOM elements for user input, check password
   // Will use temp username and pass set below:
-  const username = 'customer19';
+  const username = 'manager';
   const password = 'overlook2020';
   //----------------------//
 
@@ -34,13 +35,21 @@ function getLoginInfo(userList) {
   }
   const userId = parseInt(username.slice(8, username.length));
   if ((username.slice(0, 8) != 'customer') 
-    || (1 > userId || userId > 50)) {
+    || (1 > userId || userId > 50)
+    || password !== 'overlook2020') {
     alert('Login not valid');
     return;
-  } else { loginUser(userId, userList) };
+  } else {
+    loginUser(userId, userList) 
+  }
 }
 
 function loginUser(userId, userList) {
   currentUser = new User(userId, userList);
+  console.log(currentUser);
+}
+
+function loginManager(userList) {
+  currentUser = new Manager('Manager', userList)
   console.log(currentUser);
 }

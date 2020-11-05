@@ -9,7 +9,8 @@ class User {
   }
 
   findUserName(userList) {
-    return userList.find(user => this.id === user.id).name;
+    if (this.id === 'Manager') return 'Manager';
+    return userName =  userList.find(user => this.id === user.id).name;
   }
 
   getListOfBookings() {

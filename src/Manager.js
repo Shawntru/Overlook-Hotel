@@ -1,4 +1,4 @@
-import User from 'User'
+import User from './User'
 
 class Manager extends User {
   constructor(userId, userList) {
