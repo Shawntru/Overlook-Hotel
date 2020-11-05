@@ -51,5 +51,6 @@ function loginUser(userId, userList) {
 
 function loginManager(userList) {
   currentUser = new Manager('Manager', userList)
+  currentUser.findUserByName('Leatha Ullrich');
   console.log(currentUser);
 }
