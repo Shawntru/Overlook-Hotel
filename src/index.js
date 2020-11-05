@@ -6,26 +6,50 @@ import './images/turing-logo.png'
 
 import { fetchData } from './fetch.js';
 import { hotel } from './hotel';
+import User from './User';
+import Manager from './Manager';
 
-window.onload = initializeSite();
+let currentUser;
 
-async function initializeSite() {
-  await hotel.getHotelData();
-  let userList = await fetchData('users');
-  console.log(hotel.roomsAvailableOnDate('2020/01/24'));
-  getLoginInfo();
+window.onload = fetchSiteData();
+
+function fetchSiteData() {
+  Promise.all([fetchData('rooms'), fetchData('bookings'), fetchData('users')])
+    .then(value => {
+      hotel.roomInfo = value[0];
+      hotel.bookingInfo = value[1];
+      getLoginInfo(value[2]);
+    })
 }
 
-function getLoginInfo() {
+function getLoginInfo(userList) {
   // Query DOM elements for user input, check password
   // Will use temp username and pass set below:
-  const username = 'customer10';
+  const username = 'manager';
   const password = 'overlook2020';
-  const userId = parseInt(username.slice(8,10));
-  if (1 > userId > 50) alert('Need valid username');
-  loginUser(userId);
+  //----------------------//
+
+  if (username === 'manager' && password === 'overlook2020') {
+    loginManager(userList);
+    return;
+  }
+  const userId = parseInt(username.slice(8, username.length));
+  if ((username.slice(0, 8) != 'customer') 
+    || (1 > userId || userId > 50)
+    || password !== 'overlook2020') {
+    alert('Login not valid');
+    return;
+  } else {
+    loginUser(userId, userList) 
+  }
 }
 
-function loginUser(userId) {
-  console.log('Logged in as user' + userId);
+function loginUser(userId, userList) {
+  currentUser = new User(userId, userList);
+  console.log(currentUser);
+}
+
+function loginManager(userList) {
+  currentUser = new Manager('Manager', userList)
+  console.log(currentUser);
 }

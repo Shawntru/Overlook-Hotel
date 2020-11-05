@@ -1,11 +1,8 @@
-async function fetchData(dataType) {
-  try {
-    const response = await fetch(`https://fe-apps.herokuapp.com/api/v1/overlook/1904/${dataType}/${dataType}`)
-    const data = await response.json()
-    return await data[dataType];
-  } catch (error) {
-    return console.log(error)
-  }
+function fetchData(dataType) {
+  return fetch(`https://fe-apps.herokuapp.com/api/v1/overlook/1904/${dataType}/${dataType}`)
+    .then(response => response.json())
+    .then(data => data[dataType])
+    .catch(error => console.log(error))
 }
 
 export { fetchData };
