@@ -4,8 +4,8 @@ import './css/base.scss';
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import './images/turing-logo.png'
 
-import { fetchData } from './fetch.js';
-import { hotel } from './hotel';
+import fetchData from './fetch.js';
+import hotel from './hotel';
 import User from './User';
 import Manager from './Manager';
 

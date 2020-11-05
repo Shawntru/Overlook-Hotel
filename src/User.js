@@ -1,4 +1,4 @@
-import { hotel } from "./hotel";
+import hotel from "./hotel";
 
 class User {
   constructor (userId, userList) {

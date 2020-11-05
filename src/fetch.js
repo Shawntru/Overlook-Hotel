@@ -5,4 +5,4 @@ function fetchData(dataType) {
     .catch(error => console.log(error))
 }
 
-export { fetchData };
+export default fetchData;
