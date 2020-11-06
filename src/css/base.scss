@@ -1,7 +1,71 @@
 /* This is an example of using Sass, otherwise plain CSS works too*/
-$primary-background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
+$primary-background: floralwhite;
+$primary-dark-background: rgb(36, 36, 36);
 ;
+
+* {
+ margin: 0px;
+}
 
 body {
   background: $primary-background;
+  background-image: url('../../assets/landing-image.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  height: 100%;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.borderme {
+  border: solid red 2px;
+}
+
+.header {
+  background: $primary-dark-background;
+  height: 10em;
+  width: 100wv;
+}
+
+.page-title {
+  color: floralwhite;
+}
+
+.login-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-block {
+  border: 1px solid $primary-dark-background;
+  background: orange;
+  margin: 10px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+}
+
+.user-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-landing {
+  background: floralwhite;
+  margin: 30px;
+  border: orange 1px solid;
+  width: 90%;
+  height: 60vh;
+}
+
+.user-login-input {
+  padding: 5px;
 }

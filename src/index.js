@@ -4,12 +4,18 @@ import './css/base.scss';
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import './images/turing-logo.png'
 
-import api from './fetch.js';
+import dom from './dom'
+
+import api from './fetch';
 import hotel from './hotel';
 import User from './User';
 import Manager from './Manager';
 
 let currentUser;
+
+const loginButton = document.getElementById('login-button');
+
+loginButton.addEventListener('click', checkLoginInfo);
 
 window.onload = fetchSiteData();
 
@@ -18,24 +24,20 @@ function fetchSiteData() {
     .then(value => {
       hotel.roomInfo = value[0];
       hotel.bookingInfo = value[1];
-      getLoginInfo(value[2]);
+      hotel.userList = value[2];
     })
 }
 
-function getLoginInfo(userList) {
-  // Query DOM elements for user input, check password
-  // Will use temp username and pass set below:
-  const username = 'manager';
-  const password = 'overlook2020';
-  //----------------------//
-
+function checkLoginInfo() {
+  let username = dom.getLoginCreds('username');
+  let password = dom.getLoginCreds('password');
   if (username === 'manager' && password === 'overlook2020') {
-    loginManager(userList);
+    loginManager(hotel.userList);
     return;
   }
   const userId = parseInt(username.slice(8, username.length));
   if (isValidLogin(username, password, userId)) {
-    loginUser(userId, userList);
+    loginUser(userId, hotel.userList);
   } else {
     alert('Login not valid');
     return;
@@ -53,8 +55,6 @@ function isValidLogin(username, password, userId) {
 function loginUser(userId, userList) {
   currentUser = new User(userId, userList);
   console.log(currentUser);
-  // console.log(currentUser.makeReservation(currentUser.id, '2020/05/05', 5));
-  // console.log(currentUser.removeReservation(1604617713051));
 }
 
 function loginManager(userList) {

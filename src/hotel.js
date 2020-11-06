@@ -1,6 +1,7 @@
 let hotel = {
   roomInfo: [],
   bookingInfo: [],
+  userList: [],
 
   findRoomBooked(date, roomNum) {
     return (this.bookingInfo.find(booking => booking.date === date
