@@ -25,7 +25,7 @@ function fetchSiteData() {
 function getLoginInfo(userList) {
   // Query DOM elements for user input, check password
   // Will use temp username and pass set below:
-  const username = 'customer49';
+  const username = 'manager';
   const password = 'overlook2020';
   //----------------------//
 
@@ -54,7 +54,7 @@ function loginUser(userId, userList) {
   currentUser = new User(userId, userList);
   console.log(currentUser);
   // console.log(currentUser.makeReservation(currentUser.id, '2020/05/05', 5));
-  console.log(currentUser.removeReservation(1604617713051));
+  // console.log(currentUser.removeReservation(1604617713051));
 }
 
 function loginManager(userList) {
