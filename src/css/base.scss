@@ -1,6 +1,6 @@
 /* This is an example of using Sass, otherwise plain CSS works too*/
 $primary-background: floralwhite;
-$primary-dark-background: rgb(36, 36, 36);
+$primary-dark: rgb(36, 36, 36);
 ;
 
 * {
@@ -8,12 +8,17 @@ $primary-dark-background: rgb(36, 36, 36);
 }
 
 body {
+  margin: 0px;
   background: $primary-background;
   background-image: url('../../assets/landing-image.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
   height: 100%;
+}
+
+p {
+  margin: 10px;
 }
 
 .hidden {
@@ -25,10 +30,9 @@ body {
 }
 
 .header {
-  background: $primary-dark-background;
+  background: $primary-dark;
   height: 10em;
   width: 100wv;
-  // transition: ease 1s;
 }
 
 .page-title {
@@ -42,7 +46,7 @@ body {
 }
 
 .login-block {
-  border: 1px solid $primary-dark-background;
+  border: 1px solid $primary-dark;
   background: orange;
   margin: 10px;
   padding: 40px;
@@ -60,13 +64,44 @@ body {
 }
 
 .user-landing {
-  background: floralwhite;
+  background: rgba(255, 250, 240, 0.85);
   margin: 30px;
   border: orange 1px solid;
   width: 90%;
-  height: 60vh;
+  height: auto;
+
 }
 
 .user-login-input {
   padding: 5px;
+}
+
+.user-display-name {
+  font-size: 20px;
+  margin: 2vh;
+  border-bottom: solid $primary-dark 3px;
+}
+
+.user-details {
+  display: flex;
+
+  // USE FOR MOBILE
+  // flex-direction: column;
+}
+
+.user-booking-info {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 50%;
+  height: auto;
+}
+
+.make-new-booking {
+  width: 50%;
+}
+
+.stay-details {
+  margin: 10px;
+  border-bottom: 1px solid $primary-dark;
 }

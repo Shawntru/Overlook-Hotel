@@ -15,8 +15,9 @@ class User {
   }
   
   getListOfBookings(userId) {
-    return hotel.bookingInfo
-    .filter(booking => booking.userID === userId);
+    let bookings = hotel.bookingInfo
+      .filter(booking => booking.userID === userId);
+    return bookings.sort((a, b) => new Date(b.date) - new Date(a.date));
   }
   
   calculateRoomSpending(userId) {
