@@ -17,10 +17,6 @@ body {
   height: 100%;
 }
 
-p {
-  margin: 10px;
-}
-
 .hidden {
   display: none !important;
 }
@@ -76,9 +72,12 @@ p {
   padding: 5px;
 }
 
-.user-display-name {
+.name-and-loyalty {
+  display: flex;
+  justify-content: space-between;
   font-size: 20px;
   margin: 2vh;
+  padding: 2vh;
   border-bottom: solid $primary-dark 3px;
 }
 
@@ -104,4 +103,15 @@ p {
 .stay-details {
   margin: 10px;
   border-bottom: 1px solid $primary-dark;
+}
+
+.stay-listing {
+  margin: 20px;
+  border-bottom: 1px solid floralwhite;
+}
+
+.make-new-booking {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

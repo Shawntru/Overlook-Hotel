@@ -10,16 +10,26 @@ let dom = {
     document.querySelector(view).classList.remove('hidden');
   },
 
-  loadUserInfo(user, title){
-    title.innerText = user.name;
+  loadUserInfo(user, element){
+    this.displayNameAndLoyalty(user, element);
     const dateToday = this.getDateToday();
     let timeframe;
     user.bookings.forEach(booking => {
       if (booking.date > dateToday) timeframe = 'upcoming';
       else timeframe = 'past';
       document.getElementById(`${timeframe}-stays`).insertAdjacentHTML('beforeend',
-        `<p>Date: ${booking.date} | Room #: ${booking.roomNumber} <br> Confirmation #: ${booking.id}</p>`)
+      `<p class="stay-listing">Date: ${booking.date} | Room #: ${booking.roomNumber} <br> Confirmation #: ${booking.id}</p>`)
     })
+  },
+  
+  displayNameAndLoyalty(user, element) {
+    let loyaltyLevel = 'Bronze';
+    if (user.totalSpent > 5000) loyaltyLevel = 'Silver';
+    if (user.totalSpent > 7500) loyaltyLevel = 'Gold Partner';
+    if (user.totalSpent > 10000) loyaltyLevel = 'Platinum Elite';
+    element.innerText = user.name;
+    document.querySelector('.user-display-loyalty')
+      .innerText = `Loyalty Level: ${loyaltyLevel} (${user.totalSpent} Reward Points)`;
   },
 
   getDateToday() {

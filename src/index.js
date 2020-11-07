@@ -9,7 +9,7 @@ import Manager from './Manager';
 let currentUser;
 
 const loginButton = document.getElementById('login-button');
-const userInfoDisplay = document.querySelector('.user-display-name');
+const userNameDisplay = document.querySelector('.user-display-name');
 const headerDisplay = document.querySelector('.header');
 
 loginButton.addEventListener('click', checkLoginInfo);
@@ -58,7 +58,7 @@ function loginUser(userId) {
   currentUser = new User(userId);
   console.log(currentUser);
   dom.switchView('.user-page');
-  dom.loadUserInfo(currentUser, userInfoDisplay);
+  dom.loadUserInfo(currentUser, userNameDisplay);
 
   // TODO: Create dom function to handle all login animations
   dom.retractHeader(headerDisplay);

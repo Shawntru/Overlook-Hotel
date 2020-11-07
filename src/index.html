@@ -23,18 +23,22 @@
     <main class="user-page hidden">
       <section class="user-landing">
         <article class="user-information">
-          <p class="user-display-name">User Name</p>
+          <div class="name-and-loyalty">
+            <p class="user-display-name">User Name</p>
+            <p class="user-display-loyalty">Loyalty Level</p>
+          </div>
           <section class="user-details">
             <article class="user-booking-info">
-              <article id="upcoming-stays" class="stay-details">
-                <h3>Upcoming Stays:</h3>
+              <article id="upcoming-stays">
+                <h3 class="stay-details">Upcoming Stays:</h3>
               </article>
-              <article id="past-stays" class="stay-details">
-                <h3>Past Stays:</h3>
+              <article id="past-stays">
+                <h3 class="stay-details">Past Stays:</h3>
               </article>
             </article>
             <article class="make-new-booking">
-
+              <h3>Book a New Stay!</h3>
+              <input id="date-input" type="text" autocomplete="off">
             </article>
           </section>
         </article>
