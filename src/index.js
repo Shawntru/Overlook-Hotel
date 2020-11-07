@@ -1,11 +1,6 @@
-// An example of how you tell webpack to use a CSS (SCSS) file
 import './css/base.scss';
 
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
-import './images/turing-logo.png'
-
 import dom from './dom'
-
 import api from './fetch';
 import hotel from './hotel';
 import User from './User';
@@ -14,6 +9,7 @@ import Manager from './Manager';
 let currentUser;
 
 const loginButton = document.getElementById('login-button');
+const userInfoDisplay = document.querySelector('.user-information');
 
 loginButton.addEventListener('click', checkLoginInfo);
 
@@ -25,6 +21,11 @@ function fetchSiteData() {
       hotel.roomInfo = value[0];
       hotel.bookingInfo = value[1];
       hotel.userList = value[2];
+
+      // SKIPPING LOGIN 
+      loginUser(20);
+      // SKIPPING LOGIN 
+
     })
 }
 
@@ -52,12 +53,18 @@ function isValidLogin(username, password, userId) {
     || password !== 'overlook2020')
 }
 
-function loginUser(userId, userList) {
-  currentUser = new User(userId, userList);
+function loginUser(userId) {
+  currentUser = new User(userId);
   console.log(currentUser);
+  dom.switchView('.user-page');
+  dom.loadUserInfo(currentUser, userInfoDisplay);
 }
 
-function loginManager(userList) {
-  currentUser = new Manager('Manager', userList)
-  console.log(currentUser);
-}
+
+
+// function loginManager() {
+//   currentUser = new Manager('Manager')
+//   console.log(currentUser);
+// }
+
+

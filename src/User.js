@@ -2,9 +2,9 @@ import hotel from "./hotel";
 import api from "./fetch";
 
 class User {
-  constructor (userId, userList) {
+  constructor (userId) {
     this.id = userId;
-    this.name = this.findUserName(userList);
+    this.name = this.findUserName(hotel.userList);
     this.bookings = this.getListOfBookings(this.id);
     this.totalSpent = this.calculateRoomSpending(this.id);
   }
