@@ -59,11 +59,12 @@ function isValidLogin(username, password, userId) {
 function loginUser(userId) {
   currentUser = new User(userId);
   console.log(currentUser);
-  dom.switchView('.user-page');
+  dom.retractHeader(headerDisplay);
+  dom.switchView('.search-results');
+  // dom.switchView('.user-page');
   dom.loadUserInfo(currentUser, userNameDisplay);
 
   // TODO: Create dom function to handle all login animations
-  dom.retractHeader(headerDisplay);
 }
 
 

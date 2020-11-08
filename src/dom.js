@@ -7,31 +7,25 @@ let dom = {
   },
 
   switchView(view) {
-    const views = ['.user-page', '.login-page'];
+    const views = ['.user-page', '.login-page', '.search-results'];
     views.forEach(view => document.querySelector(view).classList.add('hidden'));
     document.querySelector(view).classList.remove('hidden');
   },
 
   loadUserInfo(user, element){
-    this.displayNameAndLoyalty(user, element);
     const dateToday = this.getDateToday();
-    let timeframe;
-    user.bookings.forEach(booking => {
-      if (booking.date > dateToday) timeframe = 'upcoming';
-      else timeframe = 'past';
-      document.getElementById(`${timeframe}-stays`).insertAdjacentHTML('beforeend',
-      `<p class="stay-listing">Date: ${booking.date} | Room #: ${booking.roomNumber} <br> Confirmation #: ${booking.id}</p>`)
-    })
-  },
-  
-  displayNameAndLoyalty(user, element) {
-    let loyaltyLevel = 'Bronze Initiate';
-    if (user.totalSpent > 5000) loyaltyLevel = 'Silver Plus';
-    if (user.totalSpent > 7000) loyaltyLevel = 'Gold Partner';
-    if (user.totalSpent > 9000) loyaltyLevel = 'Platinum Elite';
     element.innerText = user.name;
     document.querySelector('.user-display-loyalty')
-      .innerText = `Member Loyalty Level: ${loyaltyLevel} (${user.totalSpent} Reward Points)`;
+      .innerText = `Member Loyalty Level: ${user.loyaltyLevel} (${user.totalSpent} Reward Points)`;
+    let timeframe;
+    user.bookings.forEach(booking => {
+      if (booking.date >= dateToday) timeframe = 'upcoming';
+      else timeframe = 'past';
+      document.getElementById(`${timeframe}-stays`)
+        .insertAdjacentHTML('beforeend',
+        `<p class="stay-listing">Date: ${booking.date} | Room #: ${booking.roomNumber} 
+        <br> Confirmation #: ${booking.id}</p>`)
+    })
   },
 
   getDateToday() {
@@ -44,12 +38,13 @@ let dom = {
 
   retractHeader(header) {
     header.style.transition = 'ease 1s';
-    header.style.height = '3em';
+    header.style.height = '4em';
   },
 
   checkAvailability() {
     const dateRequest = document.getElementById('date-input').value;
     let availRooms = hotel.getRoomAvailabilities(dateRequest);
+    this.switchView('.search-results');
     console.log(availRooms);
   }
 
