@@ -41,13 +41,33 @@ let dom = {
     header.style.height = '4em';
   },
 
-  checkAvailability() {
-    const dateRequest = document.getElementById('date-input').value;
-    let availRooms = hotel.getRoomAvailabilities(dateRequest);
-    this.switchView('.search-results');
+  checkAvailability(dateRequest) {
+    const formattedDate = dateRequest.replace(/-/g, "/");
+    let availRooms = hotel.getRoomAvailabilities(formattedDate);
+    dom.switchView('.search-results');
+    dom.buildSearchResultHTML(availRooms)
     console.log(availRooms);
-  }
+  },
 
+  buildSearchResultHTML(availRooms) {
+    const searchResults = document.querySelector('.search-listings');
+    let bidetBlurb = "";
+    availRooms.forEach(room => {
+      let picNumber = Math.round(Math.random() * 10)
+      if (room.bidet) bidetBlurb = ", and a luxury Bidet";
+      else bidetBlurb = "";
+      searchResults.insertAdjacentHTML('beforeend',
+      ` <li class="room-result-block">
+          <img id="room-image" src="./images/room-${picNumber}.jpg" alt="Photo of Room">
+          <div class="room-information">
+            <h3>${room.roomType}, ${room.number}</h3>
+            <p>${room.numBeds} ${room.bedSize} size beds${bidetBlurb}.</p>
+            <p>Nightly Rate:  $${room.costPerNight}</p>
+          </div>
+          <button>Book This Room</button>
+        </li>`)
+    })
+  }
 }
 
 export default dom;

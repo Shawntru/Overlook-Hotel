@@ -12,7 +12,7 @@ body {
   font-family: 'Lato', sans-serif;
   margin: 0px;
   background: $primary-background;
-  background-image: url('../../assets/landing-image.jpg');
+  background-image: url('../images/landing-image.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
@@ -140,20 +140,26 @@ body {
 }
 
 .room-information {
+  width: 100%;
   margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
 }
 
 .room-result-block {
   border: 1px solid $primary-accent;
   margin: 20px;
   display: flex;
+  justify-content: space-between;
 
 }
 
 #room-image {
   border: 1px solid $primary-dark;
-  height: 10em;
-  width: 10em;
+  height: 100px;
+  width: 200px;
 }
 
 #overlook-head {

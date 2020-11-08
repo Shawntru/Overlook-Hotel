@@ -1,6 +1,6 @@
 import './css/base.scss';
 
-import dom from './dom'
+import dom from './dom';
 import api from './fetch';
 import hotel from './hotel';
 import User from './User';
@@ -12,9 +12,10 @@ const loginButton = document.getElementById('login-button');
 const userNameDisplay = document.querySelector('.user-display-name');
 const headerDisplay = document.querySelector('.header');
 const checkAvailButton = document.getElementById('check-avail-button');
+const dateCalendar = document.getElementById('date-input');
 
 loginButton.addEventListener('click', checkLoginInfo);
-checkAvailButton.addEventListener('click', dom.checkAvailability);
+checkAvailButton.addEventListener('click', () => { dom.checkAvailability(dateCalendar.value) });
 
 window.onload = fetchSiteData();
 
@@ -60,8 +61,8 @@ function loginUser(userId) {
   currentUser = new User(userId);
   console.log(currentUser);
   dom.retractHeader(headerDisplay);
-  dom.switchView('.search-results');
-  // dom.switchView('.user-page');
+  // dom.switchView('.search-results');
+  dom.switchView('.user-page');
   dom.loadUserInfo(currentUser, userNameDisplay);
 
   // TODO: Create dom function to handle all login animations
