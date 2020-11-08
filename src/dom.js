@@ -1,3 +1,5 @@
+import hotel from './hotel';
+
 let dom = {
   
   getLoginCreds(textbox) {
@@ -23,13 +25,13 @@ let dom = {
   },
   
   displayNameAndLoyalty(user, element) {
-    let loyaltyLevel = 'Bronze';
-    if (user.totalSpent > 5000) loyaltyLevel = 'Silver';
-    if (user.totalSpent > 7500) loyaltyLevel = 'Gold Partner';
-    if (user.totalSpent > 10000) loyaltyLevel = 'Platinum Elite';
+    let loyaltyLevel = 'Bronze Initiate';
+    if (user.totalSpent > 5000) loyaltyLevel = 'Silver Plus';
+    if (user.totalSpent > 7000) loyaltyLevel = 'Gold Partner';
+    if (user.totalSpent > 9000) loyaltyLevel = 'Platinum Elite';
     element.innerText = user.name;
     document.querySelector('.user-display-loyalty')
-      .innerText = `Loyalty Level: ${loyaltyLevel} (${user.totalSpent} Reward Points)`;
+      .innerText = `Member Loyalty Level: ${loyaltyLevel} (${user.totalSpent} Reward Points)`;
   },
 
   getDateToday() {
@@ -43,6 +45,12 @@ let dom = {
   retractHeader(header) {
     header.style.transition = 'ease 1s';
     header.style.height = '3em';
+  },
+
+  checkAvailability() {
+    const dateRequest = document.getElementById('date-input').value;
+    let availRooms = hotel.getRoomAvailabilities(dateRequest);
+    console.log(availRooms);
   }
 
 }

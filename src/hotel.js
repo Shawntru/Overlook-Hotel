@@ -9,10 +9,8 @@ let hotel = {
   },
 
   getRoomAvailabilities(date) {
-    return this.roomInfo.map(room => {
-      room.available = !!(!this.findRoomBooked(date, room.number));
-      return room;
-    })
+    return this.roomInfo
+      .filter(room => !!(!this.findRoomBooked(date, room.number)))
   },
 
   filterRoomsByType(rooms, type) {

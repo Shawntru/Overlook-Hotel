@@ -11,8 +11,10 @@ let currentUser;
 const loginButton = document.getElementById('login-button');
 const userNameDisplay = document.querySelector('.user-display-name');
 const headerDisplay = document.querySelector('.header');
+const checkAvailButton = document.getElementById('check-avail-button');
 
 loginButton.addEventListener('click', checkLoginInfo);
+checkAvailButton.addEventListener('click', dom.checkAvailability);
 
 window.onload = fetchSiteData();
 
@@ -24,7 +26,7 @@ function fetchSiteData() {
       hotel.userList = value[2];
 
       // SKIPPING LOGIN 
-      loginUser(20);
+      loginUser(40);
       // SKIPPING LOGIN 
 
     })
