@@ -1,7 +1,181 @@
-/* This is an example of using Sass, otherwise plain CSS works too*/
-$primary-background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
-;
+$primary-background: floralwhite;
+$primary-dark: rgb(36, 36, 36);
+$primary-accent: rgb(255, 123, 0);
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=Lato&display=swap');
+
+* {
+  margin: 0px;
+}
 
 body {
+  font-family: 'Lato', sans-serif;
+  margin: 0px;
   background: $primary-background;
+  background-image: url('../images/landing-image.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  height: 100%;
+}
+
+.hidden, .past {
+  display: none !important;
+}
+
+.header {
+  font-family: 'Cinzel', serif;
+  background: $primary-dark;
+  height: 10em;
+  width: 100wv;
+}
+
+.page-title {
+  color: floralwhite;
+  font-size: 20px;
+  margin-left: 10px;
+  display: flex;
+  padding: 10px;
+}
+
+.login-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+}
+
+.login-block {
+  border: 1px solid $primary-dark;
+  background: $primary-accent;
+  margin: 10px;
+  padding: 10px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.user-page, .search-results {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.divider {
+  width: 50%;
+  border-bottom: 2px solid floralwhite;
+  margin: 0 auto;
+}
+
+.user-landing {
+  background: rgba(255, 250, 240, 0.9);
+  margin: 30px;
+  border: $primary-accent 1px solid;
+  width: 90%;
+  height: auto;
+  min-height: 80vh;
+}
+
+.user-search-landing{
+  @extend .user-landing;
+  display: flex;
+}
+
+.user-login-input {
+  padding: 5px;
+}
+
+.user-display-name {
+  font-size: 28px;
+}
+
+.name-and-loyalty {
+  display: flex;
+  justify-content: space-between;
+  font-size: 20px;
+  margin: 2vh;
+  padding: 2vh;
+  border-bottom: solid $primary-dark 3px;
+}
+
+.user-details {
+  display: flex;
+
+  // USE FOR MOBILE
+  // flex-direction: column;
+}
+
+.user-booking-info {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 50%;
+  height: auto;
+}
+
+.make-new-booking {
+  width: 50%;
+}
+
+.stay-details {
+  margin: 10px;
+  border-bottom: 1px solid $primary-dark;
+}
+
+.stay-listing {
+  margin: 20px;
+  padding: 10px;
+  border-bottom: 1px solid floralwhite;
+}
+
+.make-new-booking {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.search-params {
+  width: 30%;
+}
+
+.search-listings {
+  width: 70%;
+  list-style-type: none;
+  padding: 0px;
+}
+
+.room-information {
+  width: 100%;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+
+.room-result-block {
+  border: 1px solid $primary-accent;
+  margin: 20px;
+  display: flex;
+  justify-content: space-between;
+
+}
+
+.upcoming-entry {
+  display: flex;
+}
+
+#room-image {
+  border: 1px solid $primary-dark;
+  height: 100px;
+  width: 200px;
+}
+
+#overlook-head {
+  color: $primary-accent;
+  font-size: 45px;
+  margin: 0px 5px;
 }

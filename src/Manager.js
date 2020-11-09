@@ -1,9 +1,10 @@
-import User from './User'
+import User from './User';
+import hotel from './hotel';
 
 class Manager extends User {
-  constructor(userId, userList) {
-    super(userId, userList);
-    this.userList = userList.map(user => new User(user.id, userList));
+  constructor(userId) {
+    super(userId);
+    this.userList = hotel.userList.map(user => new User(user.id));
     this.viewingUser = 0;
   }
 
