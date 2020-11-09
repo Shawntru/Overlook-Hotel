@@ -26,7 +26,7 @@ let dom = {
             <p class="stay-listing">Date: ${booking.date} | Room #: ${booking.roomNumber} 
             <br> Confirmation #: ${booking.id}</p>
           </div>
-          <button class="res-cancel-button ${timeframe}" id="${booking.id}">Cancel Reservation</button>
+          <button class="button res-cancel-button ${timeframe}" id="${booking.id}">Cancel Reservation</button>
         </div>`)
     })
   },
@@ -51,7 +51,9 @@ let dom = {
   },
 
   checkAvailability(dateRequest) {
-    if (!dateRequest) return;
+    //SKIPPING DATE INPUT
+    // if (!dateRequest) return;
+    //SKIPPING DATE INPUT
     const formattedDate = dateRequest.replace(/-/g, "/");
     let availRooms = hotel.getRoomAvailabilities(formattedDate);
     dom.switchView('.search-results');
@@ -82,7 +84,7 @@ let dom = {
             <p>${room.numBeds} ${uppercaseBedSize} Size Beds${bidetBlurb}.</p>
             <p>Nightly Rate:  $${room.costPerNight}</p>
           </div>
-          <button class="make-res-button" id="${room.number}-${formattedDate}">Book This Room</button>
+          <button class="button make-res-button" id="${room.number}-${formattedDate}">Book This Room</button>
         </li>
         <div class="divider"></div>`)
     })

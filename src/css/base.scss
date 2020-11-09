@@ -1,8 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=Lato&display=swap');
+@import './buttons.scss';
+
 $primary-background: floralwhite;
 $primary-dark: rgb(36, 36, 36);
 $primary-accent: rgb(255, 123, 0);
-
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=Lato&display=swap');
 
 * {
   margin: 0px;
@@ -17,6 +18,15 @@ body {
   background-attachment: fixed;
   background-position: center;
   height: 100%;
+}
+
+h2 {
+  margin: 10px;
+}
+
+h3 {
+  margin: 10px;
+  border-bottom: 1px solid $primary-dark;
 }
 
 .hidden, .past {
@@ -139,6 +149,8 @@ body {
 
 .search-params {
   width: 30%;
+  display: flex;
+  justify-content: center;
 }
 
 .search-listings {
@@ -149,19 +161,19 @@ body {
 
 .room-information {
   width: 100%;
-  margin: 10px;
+  margin: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  align-items: flex-start;
+  justify-content: space-between;
+  align-items: stretch;
 }
 
 .room-result-block {
-  border: 1px solid $primary-accent;
+  border: 1px solid $primary-dark;
   margin: 20px;
   display: flex;
   justify-content: space-between;
-
+  align-items: center;
 }
 
 .upcoming-entry {
@@ -169,9 +181,9 @@ body {
 }
 
 #room-image {
-  border: 1px solid $primary-dark;
-  height: 100px;
-  width: 200px;
+  border-right: 1px solid $primary-dark;
+  height: 150px;
+  width: 225px;
 }
 
 #overlook-head {

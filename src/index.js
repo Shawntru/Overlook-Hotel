@@ -30,12 +30,12 @@ const searchResultsList = document.querySelector('.search-listings');
 loginButton.addEventListener('click', checkLoginInfo);
 checkAvailButton.addEventListener('click', () => { dom.checkAvailability(dateCalendar.value) });
 upcomingStays.addEventListener('click', (event) => {
-  if (event.target.className === 'res-cancel-button upcoming'
+  if (event.target.className === 'button res-cancel-button upcoming'
     && event.target.innerText !== 'Cancelled!') {
       verifyReservationCancel(event.toElement.id);
   } });
 searchResultsList.addEventListener('click', (event) => {
-  if (event.target.className === 'make-res-button'
+  if (event.target.className === 'button make-res-button'
     && event.target.innerText !== 'Booked!') {
     const bookingData = event.toElement.id.split('-');
     verifyMakeReservation(bookingData);
@@ -104,10 +104,3 @@ function verifyMakeReservation(bookingData) {
   currentUser.makeReservation(currentUser.id, bookingData[1], bookingData[0]);
   dom.showBooked(bookingData.join('-'));
 }
-
-// function loginManager() {
-//   currentUser = new Manager('Manager')
-//   console.log(currentUser);
-// }
-
-
