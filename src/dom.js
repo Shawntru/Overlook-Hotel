@@ -57,6 +57,10 @@ let dom = {
     dom.buildSearchResultHTML(availRooms)
   },
 
+  showCancelled(buttonId) {
+    document.getElementById(buttonId).innerText = 'Cancelled!'
+  },
+
   buildSearchResultHTML(availRooms) {
     const searchResults = document.querySelector('.search-listings');
     let bidetBlurb = "";

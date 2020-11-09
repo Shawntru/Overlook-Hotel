@@ -28,9 +28,10 @@ const upcomingStays = document.getElementById('upcoming-stays');
 
 loginButton.addEventListener('click', checkLoginInfo);
 checkAvailButton.addEventListener('click', () => { dom.checkAvailability(dateCalendar.value) });
-upcomingStays.addEventListener('click', (event) => { 
-  if (event.target.className === 'res-cancel-button upcoming') {
-    console.log(event.toElement.id);
+upcomingStays.addEventListener('click', (event) => {
+  if (event.target.className === 'res-cancel-button upcoming'
+    && event.target.innerText !== 'Cancelled!') {
+      verifyReservationCancel(event.toElement.id);
   } });
 
 window.onload = fetchSiteData();
@@ -84,11 +85,11 @@ function loginUser(userId) {
   // TODO: Create dom function to handle all login animations
 }
 
-function cancelReservation(bookingId) {
-  // currentUser.removeReservation(bookingId);
-  console.log('Removed ' + bookingId);
+function verifyReservationCancel(reservationID) {
+  if (!window.confirm("Are you sure you want to delete this reservation?")) return;
+  currentUser.removeReservation(reservationID);
+  dom.showCancelled(reservationID);
 }
-
 
 // function loginManager() {
 //   currentUser = new Manager('Manager')

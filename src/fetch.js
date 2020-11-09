@@ -31,7 +31,7 @@ let api = {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        "id": reservationId
+        "id": parseInt(reservationId)
       })
     })
       .then(response => response.json())
