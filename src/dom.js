@@ -51,17 +51,22 @@ let dom = {
   },
 
   checkAvailability(dateRequest) {
+    if (!dateRequest) return;
     const formattedDate = dateRequest.replace(/-/g, "/");
     let availRooms = hotel.getRoomAvailabilities(formattedDate);
     dom.switchView('.search-results');
-    dom.buildSearchResultHTML(availRooms)
+    dom.buildSearchResultHTML(availRooms, formattedDate)
   },
 
   showCancelled(buttonId) {
-    document.getElementById(buttonId).innerText = 'Cancelled!'
+    document.getElementById(buttonId).innerText = 'Cancelled!';
   },
 
-  buildSearchResultHTML(availRooms) {
+  showBooked(bookingData) {
+    document.getElementById(bookingData).innerText = 'Booked!';
+  },
+
+  buildSearchResultHTML(availRooms, formattedDate) {
     const searchResults = document.querySelector('.search-listings');
     let bidetBlurb = "";
     availRooms.forEach(room => {
@@ -77,7 +82,7 @@ let dom = {
             <p>${room.numBeds} ${uppercaseBedSize} Size Beds${bidetBlurb}.</p>
             <p>Nightly Rate:  $${room.costPerNight}</p>
           </div>
-          <button>Book This Room</button>
+          <button class="make-res-button" id="${room.number}-${formattedDate}">Book This Room</button>
         </li>
         <div class="divider"></div>`)
     })

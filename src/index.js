@@ -25,6 +25,7 @@ const headerDisplay = document.querySelector('.header');
 const checkAvailButton = document.getElementById('check-avail-button');
 const dateCalendar = document.getElementById('date-input');
 const upcomingStays = document.getElementById('upcoming-stays');
+const searchResultsList = document.querySelector('.search-listings');
 
 loginButton.addEventListener('click', checkLoginInfo);
 checkAvailButton.addEventListener('click', () => { dom.checkAvailability(dateCalendar.value) });
@@ -33,6 +34,13 @@ upcomingStays.addEventListener('click', (event) => {
     && event.target.innerText !== 'Cancelled!') {
       verifyReservationCancel(event.toElement.id);
   } });
+searchResultsList.addEventListener('click', (event) => {
+  if (event.target.className === 'make-res-button'
+    && event.target.innerText !== 'Booked!') {
+    const bookingData = event.toElement.id.split('-');
+    verifyMakeReservation(bookingData);
+  }
+})
 
 window.onload = fetchSiteData();
 
@@ -44,7 +52,7 @@ function fetchSiteData() {
       hotel.userList = value[2];
 
       // SKIPPING LOGIN 
-      loginUser(50);
+      loginUser(4);
       // SKIPPING LOGIN 
 
     })
@@ -89,6 +97,12 @@ function verifyReservationCancel(reservationID) {
   if (!window.confirm("Are you sure you want to delete this reservation?")) return;
   currentUser.removeReservation(reservationID);
   dom.showCancelled(reservationID);
+}
+
+function verifyMakeReservation(bookingData) {
+  if (!window.confirm(`Make a reservation for Room ${bookingData[0]} on ${bookingData[1]}?`)) return;
+  currentUser.makeReservation(currentUser.id, bookingData[1], bookingData[0]);
+  dom.showBooked(bookingData.join('-'));
 }
 
 // function loginManager() {
