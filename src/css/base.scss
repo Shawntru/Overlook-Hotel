@@ -19,7 +19,7 @@ body {
   height: 100%;
 }
 
-.hidden {
+.hidden, .past {
   display: none !important;
 }
 
@@ -42,24 +42,31 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 50vh;
 }
 
 .login-block {
   border: 1px solid $primary-dark;
   background: $primary-accent;
   margin: 10px;
-  padding: 40px;
+  padding: 10px 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 50px;
+
 }
 
 .user-page, .search-results {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.divider {
+  width: 50%;
+  border-bottom: 2px solid floralwhite;
+  margin: 0 auto;
 }
 
 .user-landing {
@@ -119,6 +126,7 @@ body {
 
 .stay-listing {
   margin: 20px;
+  padding: 10px;
   border-bottom: 1px solid floralwhite;
 }
 
@@ -154,6 +162,10 @@ body {
   display: flex;
   justify-content: space-between;
 
+}
+
+.upcoming-entry {
+  display: flex;
 }
 
 #room-image {

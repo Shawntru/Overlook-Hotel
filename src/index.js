@@ -1,4 +1,15 @@
 import './css/base.scss';
+import './images/room-0.jpg';
+import './images/room-1.jpg';
+import './images/room-2.jpg';
+import './images/room-3.jpg';
+import './images/room-4.jpg';
+import './images/room-5.jpg';
+import './images/room-6.jpg';
+import './images/room-7.jpg';
+import './images/room-8.jpg';
+import './images/room-9.jpg';
+import './images/room-10.jpg';
 
 import dom from './dom';
 import api from './fetch';
@@ -13,9 +24,14 @@ const userNameDisplay = document.querySelector('.user-display-name');
 const headerDisplay = document.querySelector('.header');
 const checkAvailButton = document.getElementById('check-avail-button');
 const dateCalendar = document.getElementById('date-input');
+const upcomingStays = document.getElementById('upcoming-stays');
 
 loginButton.addEventListener('click', checkLoginInfo);
 checkAvailButton.addEventListener('click', () => { dom.checkAvailability(dateCalendar.value) });
+upcomingStays.addEventListener('click', (event) => { 
+  if (event.target.className === 'res-cancel-button upcoming') {
+    console.log(event.toElement.id);
+  } });
 
 window.onload = fetchSiteData();
 
@@ -27,7 +43,7 @@ function fetchSiteData() {
       hotel.userList = value[2];
 
       // SKIPPING LOGIN 
-      loginUser(40);
+      loginUser(50);
       // SKIPPING LOGIN 
 
     })
@@ -68,6 +84,10 @@ function loginUser(userId) {
   // TODO: Create dom function to handle all login animations
 }
 
+function cancelReservation(bookingId) {
+  // currentUser.removeReservation(bookingId);
+  console.log('Removed ' + bookingId);
+}
 
 
 // function loginManager() {
