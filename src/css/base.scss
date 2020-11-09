@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=Lato&display=swap');
 @import './buttons.scss';
+@import './navigation.scss';
 
 $primary-background: floralwhite;
 $primary-dark: rgb(36, 36, 36);
@@ -31,21 +32,6 @@ h3 {
 
 .hidden, .past {
   display: none !important;
-}
-
-.header {
-  font-family: 'Cinzel', serif;
-  background: $primary-dark;
-  height: 10em;
-  width: 100wv;
-}
-
-.page-title {
-  color: floralwhite;
-  font-size: 20px;
-  margin-left: 10px;
-  display: flex;
-  padding: 10px;
 }
 
 .login-page {
@@ -83,9 +69,10 @@ h3 {
   background: rgba(255, 250, 240, 0.9);
   margin: 30px;
   border: $primary-accent 1px solid;
-  width: 90%;
+  width: 95%;
   height: auto;
   min-height: 80vh;
+  border-radius: 5px;
 }
 
 .user-search-landing{
@@ -190,4 +177,18 @@ h3 {
   color: $primary-accent;
   font-size: 45px;
   margin: 0px 5px;
+}
+
+#date-input {
+  font-family: 'Lato', sans-serif;
+  text-align: center;
+  transform: scale(2);
+  margin: 20px;
+  border-radius: 50px;
+  border: 2px solid $primary-dark;
+  background-color: $primary-accent;
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0px 0px 10px $primary-dark;
+  }
 }

@@ -24,16 +24,21 @@ const userNameDisplay = document.querySelector('.user-display-name');
 const headerDisplay = document.querySelector('.header');
 const checkAvailButton = document.getElementById('check-avail-button');
 const dateCalendar = document.getElementById('date-input');
-const upcomingStays = document.getElementById('upcoming-stays');
+const userInfo = document.querySelector('.user-booking-info')
 const searchResultsList = document.querySelector('.search-listings');
+const navUserOverview = document.getElementById('nav-overview');
+const navUserLogout = document.getElementById('nav-logout');
 
 loginButton.addEventListener('click', checkLoginInfo);
 checkAvailButton.addEventListener('click', () => { dom.checkAvailability(dateCalendar.value) });
-upcomingStays.addEventListener('click', (event) => {
+
+userInfo.addEventListener('click', (event) => {
   if (event.target.className === 'button res-cancel-button upcoming'
     && event.target.innerText !== 'Cancelled!') {
       verifyReservationCancel(event.toElement.id);
-  } });
+  } }
+)
+
 searchResultsList.addEventListener('click', (event) => {
   if (event.target.className === 'button make-res-button'
     && event.target.innerText !== 'Booked!') {
@@ -42,9 +47,21 @@ searchResultsList.addEventListener('click', (event) => {
   }
 })
 
-window.onload = fetchSiteData();
+navUserOverview.addEventListener('click', () => {
+  fetchSiteData(true);
+  dom.switchView('.user-page');
+})
 
-function fetchSiteData() {
+navUserLogout.addEventListener('click', () => {
+  location.reload();
+})
+
+window.onload = () => {
+  fetchSiteData();
+};
+
+let runTime = true;
+function fetchSiteData(isRefresh) {
   Promise.all([api.fetchData('rooms'), api.fetchData('bookings'), api.fetchData('users')])
     .then(value => {
       hotel.roomInfo = value[0];
@@ -52,10 +69,18 @@ function fetchSiteData() {
       hotel.userList = value[2];
 
       // SKIPPING LOGIN 
-      loginUser(4);
+      if (runTime) {
+        runTime = false;
+        loginUser(40);
+      }
       // SKIPPING LOGIN 
 
-    })
+      if (isRefresh) {
+        currentUser.updateUserInfo();
+        dom.loadUserInfo(currentUser, userNameDisplay);
+      }
+    }
+  )
 }
 
 function checkLoginInfo() {
@@ -84,19 +109,23 @@ function isValidLogin(username, password, userId) {
 
 function loginUser(userId) {
   currentUser = new User(userId);
-  console.log(currentUser);
   dom.retractHeader(headerDisplay);
-  // dom.switchView('.search-results');
   dom.switchView('.user-page');
   dom.loadUserInfo(currentUser, userNameDisplay);
+  dom.displayNavLinks();
+  setCalendarRange();
+}
 
-  // TODO: Create dom function to handle all login animations
+function setCalendarRange() {
+  let todaysDate = dom.getDateToday();
+  dateCalendar.setAttribute('min', todaysDate.replace(/\//g, "-"));
 }
 
 function verifyReservationCancel(reservationID) {
   if (!window.confirm("Are you sure you want to delete this reservation?")) return;
   currentUser.removeReservation(reservationID);
   dom.showCancelled(reservationID);
+  // fetchSiteData(true);
 }
 
 function verifyMakeReservation(bookingData) {

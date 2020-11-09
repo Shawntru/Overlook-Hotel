@@ -13,6 +13,7 @@ let dom = {
   },
 
   loadUserInfo(user, element){
+    this.clearUserInfo();
     this.displayUserNameLoyalty(user, element);
     const dateToday = this.getDateToday();
     let timeframe;
@@ -29,6 +30,22 @@ let dom = {
           <button class="button res-cancel-button ${timeframe}" id="${booking.id}">Cancel Reservation</button>
         </div>`)
     })
+  },
+
+  clearUserInfo() {
+    const userInfo = document.querySelector('.user-booking-info');
+    userInfo.innerHTML = 
+      `<article id="upcoming-stays">
+        <h3 class="stay-details">Upcoming Stays:</h3>
+      </article>
+      <article id="past-stays">
+        <h3 class="stay-details">Past Stays:</h3>
+      </article>`;
+  },
+
+  displayNavLinks() {
+    const navBar = document.querySelector('.navigation');
+    navBar.classList.remove('hidden');
   },
 
   displayUserNameLoyalty(user, element) {
@@ -52,7 +69,7 @@ let dom = {
 
   checkAvailability(dateRequest) {
     //SKIPPING DATE INPUT
-    // if (!dateRequest) return;
+    if (!dateRequest) return;
     //SKIPPING DATE INPUT
     const formattedDate = dateRequest.replace(/-/g, "/");
     let availRooms = hotel.getRoomAvailabilities(formattedDate);
@@ -62,6 +79,7 @@ let dom = {
 
   showCancelled(buttonId) {
     document.getElementById(buttonId).innerText = 'Cancelled!';
+    setTimeout(() => {}, 3000);
   },
 
   showBooked(bookingData) {

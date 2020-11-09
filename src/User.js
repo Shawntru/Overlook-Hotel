@@ -10,6 +10,12 @@ class User {
     this.loyaltyLevel = this.calculateLoyaltyLevel(this.totalSpent);
   }
 
+  updateUserInfo() {
+    this.bookings = this.getListOfBookings(this.id);
+    this.totalSpent = this.calculateRoomSpending(this.id);
+    this.loyaltyLevel = this.calculateLoyaltyLevel(this.totalSpent);
+  }
+
   findUserName(userList) {
     if (this.id === 'Manager') return 'Manager';
     return userList.find(user => this.id === user.id).name;
