@@ -1,6 +1,4 @@
-$primary-background: floralwhite;
-$primary-dark: rgb(36, 36, 36);
-$primary-accent: rgb(255, 123, 0);
+@import './variables';
 
 .button {
   border: $primary-dark 1px solid;

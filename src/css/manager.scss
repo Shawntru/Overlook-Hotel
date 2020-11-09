@@ -1,0 +1,11 @@
+@import './variables';
+
+.manager-dash {
+  background: rgba(255, 250, 240, 0.9);
+  margin: 30px;
+  border: $primary-accent 3px solid;
+  width: 95%;
+  height: auto;
+  min-height: 30vh;
+  border-radius: 5px;
+}

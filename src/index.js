@@ -69,10 +69,13 @@ function fetchSiteData(isRefresh) {
       hotel.userList = value[2];
 
       // SKIPPING LOGIN 
+
       if (runTime) {
         runTime = false;
-        loginUser(40);
-      }
+        currentUser = new User(50);
+        loginUser();
+      };
+
       // SKIPPING LOGIN 
 
       if (isRefresh) {
@@ -92,7 +95,8 @@ function checkLoginInfo() {
   }
   const userId = parseInt(username.slice(8, username.length));
   if (isValidLogin(username, password, userId)) {
-    loginUser(userId, hotel.userList);
+    currentUser = new User(userId);
+    loginUser();
   } else {
     alert('Login not valid');
     return;
@@ -107,8 +111,7 @@ function isValidLogin(username, password, userId) {
     || password !== 'overlook2020')
 }
 
-function loginUser(userId) {
-  currentUser = new User(userId);
+function loginUser() {
   dom.retractHeader(headerDisplay);
   dom.switchView('.user-page');
   dom.loadUserInfo(currentUser, userNameDisplay);
@@ -122,14 +125,16 @@ function setCalendarRange() {
 }
 
 function verifyReservationCancel(reservationID) {
-  if (!window.confirm("Are you sure you want to delete this reservation?")) return;
+  // if (!window.confirm("Are you sure you want to delete this reservation?")) return;
   currentUser.removeReservation(reservationID);
   dom.showCancelled(reservationID);
-  // fetchSiteData(true);
+  setTimeout(() => { fetchSiteData(true) }, 1000);
 }
 
 function verifyMakeReservation(bookingData) {
-  if (!window.confirm(`Make a reservation for Room ${bookingData[0]} on ${bookingData[1]}?`)) return;
+  // if (!window.confirm(`Make a reservation for Room ${bookingData[0]} on ${bookingData[1]}?`)) return;
   currentUser.makeReservation(currentUser.id, bookingData[1], bookingData[0]);
   dom.showBooked(bookingData.join('-'));
+  setTimeout(() => { fetchSiteData(true);
+    dom.switchView('.user-page') }, 1000);
 }

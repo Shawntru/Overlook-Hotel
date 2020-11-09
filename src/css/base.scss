@@ -1,10 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=Lato&display=swap');
 @import './buttons.scss';
 @import './navigation.scss';
-
-$primary-background: floralwhite;
-$primary-dark: rgb(36, 36, 36);
-$primary-accent: rgb(255, 123, 0);
+@import './variables';
+@import './manager';
 
 * {
   margin: 0px;
@@ -53,7 +51,7 @@ h3 {
 
 }
 
-.user-page, .search-results {
+.user-page, .search-results, .manager-page {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -144,6 +142,11 @@ h3 {
   width: 70%;
   list-style-type: none;
   padding: 0px;
+}
+
+.apology {
+  text-align: center;
+  margin: 20px;
 }
 
 .room-information {
