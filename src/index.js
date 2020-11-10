@@ -38,6 +38,7 @@ loginButton.addEventListener('click', checkLoginInfo);
 checkAvailButton.addEventListener('click', () => { dom.checkAvailability(dateCalendar.value) });
 
 viewUserButton.addEventListener('click', () => {
+  if (managerUserList.value === 'none') return;
   currentUser = new User(parseInt(managerUserList.value));
   dom.switchView('.user-page');
   dom.loadUserInfo(currentUser, userNameDisplay);
@@ -90,10 +91,13 @@ function fetchSiteData(isRefresh) {
       // DEBUG: SKIPPING LOGIN 
       if (runTime) {
         runTime = false;
-        loginUser(50);
-        // loginManager();
+        // loginUser(50);
+        loginManager();
       };
       // DEBUG: SKIPPING LOGIN 
+
+      // DEBUG: CHART BUILDING
+      // DEBUG: CHART BUILDING
 
       // DEBUG: ARE ALL USERS DATA LEGIT
       // hotel.userList.forEach(user => {
@@ -156,8 +160,8 @@ function loginAnimations() {
 function loginManager() {
   currentUser = new Manager('Manager');
   loginAnimations();
-  dom.switchView();
-  dom.buildManagerDash(currentUser, dailyStats);
+  dom.switchView('.manager-chart');
+  dom.buildManagerDash(currentUser, dailyStats, managerChart);
 }
 
 function setCalendarRange() {

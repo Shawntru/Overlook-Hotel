@@ -1,13 +1,14 @@
 import Chart from 'chart.js';
+import dom from './dom';
 const chartDisplay = document.getElementById('manager-chart');
 
 let managerChart = new Chart(chartDisplay, {
   type: 'line',
   data: {
-    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+    labels: dom.buildChartDates(),
     datasets: [{
-      label: '# of Votes',
-      data: [12, 19, 3, 5, 2, 3],
+      label: `Monthly Revenue Forecast, from ${dom.getDateToday()}`,
+      data: 0,
       backgroundColor: [
         'rgba(255, 99, 132, 0.2)',
         'rgba(54, 162, 235, 0.2)',
@@ -35,7 +36,10 @@ let managerChart = new Chart(chartDisplay, {
         }
       }]
     }
-  }
+  },
+
+  
+
 });
 
 export default managerChart;

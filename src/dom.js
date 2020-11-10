@@ -8,9 +8,8 @@ let dom = {
 
   switchView(inputView) {
     scroll(0, 0);
-    const views = ['.user-page', '.login-page', '.search-results'];
+    const views = ['.user-page', '.login-page', '.search-results', '.manager-chart'];
     views.forEach(view => document.querySelector(view).classList.add('hidden'));
-    if (!inputView) return;
     document.querySelector(inputView).classList.remove('hidden');
   },
 
@@ -56,11 +55,14 @@ let dom = {
       .innerText = `Member Loyalty Level: ${user.loyaltyLevel} (${user.totalSpent} Reward Points)`;
   },
 
-  getDateToday() {
-    let today = new Date();
-    let dd = String(today.getDate()).padStart(2, '0');
-    let mm = String(today.getMonth() + 1).padStart(2, '0');
-    let yyyy = today.getFullYear();
+  getDateToday(dayModifier) {
+    let date = new Date();
+    if (dayModifier) {
+      date.setDate(date.getDate() + dayModifier);
+    }
+    let dd = String(date.getDate()).padStart(2, '0');
+    let mm = String(date.getMonth() + 1).padStart(2, '0');
+    let yyyy = date.getFullYear();
     return yyyy + '/' + mm + '/' + dd;
   },
 
@@ -77,9 +79,9 @@ let dom = {
     document.getElementById(bookingData).innerText = 'Booked!';
   },
 
-  buildManagerDash(currentUser, dailyStats) {
+  buildManagerDash(currentUser, dailyStats, managerChart) {
     this.getManagementStats(dailyStats);
-    // this.buildManagerChart();
+    this.buildChartData(managerChart);
     const managerPage = document.querySelector('.manager-page');
     const customerList = document.getElementById('customer-list');
     managerPage.classList.remove('hidden');
@@ -88,10 +90,6 @@ let dom = {
         <option value="${user.id}">User: ${user.id}  -  ${user.name}</option>`)
     });
   },
-
-  // buildManagerChart(managerChart) {
-    
-  // },
 
   getManagementStats(dailyStats) {
     const today = this.getDateToday();
@@ -146,6 +144,25 @@ let dom = {
         </li>
         <div class="divider"></div>`)
   },
+
+  buildChartDates() {
+    let day = 0;
+    let daysOfWeek = [];
+    while (daysOfWeek.length < 30) {
+      daysOfWeek.push(dom.getDateToday(day));
+      day++;
+    }
+    return daysOfWeek;
+  },
+
+  buildChartData(managerChart) {
+    const dates = this.buildChartDates();
+    const revenues = dates.reduce((revAmounts, date) => {
+      revAmounts.push(hotel.getDailyRevenue(date));
+      return revAmounts;
+    }, [])
+    managerChart.data.datasets[0].data = revenues;
+  }
 
 }
 
