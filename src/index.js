@@ -77,23 +77,26 @@ function fetchSiteData(isRefresh) {
       hotel.userList = value[2];
 
       // DEBUG: SKIPPING LOGIN 
-      if (runTime) {
-        runTime = false;
-        // loginUser(2);
-        loginManager();
-      // SKIPPING LOGIN 
-      };
+      // if (runTime) {
+      //   runTime = false;
+      //   loginUser(2);
+      //   loginManager();
+      // };
+      // DEBUG: SKIPPING LOGIN 
 
       // DEBUG: ARE ALL USERS DATA LEGIT
       // hotel.userList.forEach(user => {
       //   loginUser(user.id);
       //   console.log(user.id);
       // })
+      // DEBUG: ARE ALL USERS DATA LEGIT
+
 
       // DEBUG: FOR REMOVING BAD RESERVATIONS
       // console.log(hotel.bookingInfo.filter(booking => booking.userID === 1));
       // currentUser.removeReservation(1604956114776);
       // currentUser.removeReservation(1604956205689);
+      // DEBUG: FOR REMOVING BAD RESERVATIONS
 
       if (isRefresh) {
         currentUser.updateUserInfo();
@@ -153,14 +156,12 @@ function setCalendarRange() {
 }
 
 function verifyReservationCancel(reservationID) {
-  // if (!window.confirm("Are you sure you want to delete this reservation?")) return;
   currentUser.removeReservation(reservationID);
   dom.showCancelled(reservationID);
   setTimeout(() => { fetchSiteData(true) }, 1000);
 }
 
 function verifyMakeReservation(bookingData) {
-  // if (!window.confirm(`Make a reservation for Room ${bookingData[0]} on ${bookingData[1]}?`)) return;
   currentUser.makeReservation(currentUser.id, bookingData[1], bookingData[0]);
   dom.showBooked(bookingData.join('-'));
   setTimeout(() => { fetchSiteData(true);

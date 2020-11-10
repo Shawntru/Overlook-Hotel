@@ -99,7 +99,8 @@ let dom = {
     const searchResults = document.querySelector('.search-listings');
     searchResults.innerHTML = `<ul class="search-listings"></ul>`;
     if (!availRooms) {
-      this.displayApology(searchResults, formattedDate);
+      searchResults.innerHTML = 
+        `<h1 class="apology">Sorry, There are No Vacancies for ${formattedDate}</h1>`;
       return;
     }
     let bidetBlurb = "";
@@ -109,10 +110,6 @@ let dom = {
       const uppercaseBedSize = room.bedSize.charAt(0).toUpperCase() + room.bedSize.slice(1);
       this.createResultHTML(searchResults, formattedDate, bidetBlurb, room, uppercaseBedSize);
     })
-  },
-
-  displayApology(searchResults, formattedDate) {
-    searchResults.innerHTML = `<h1 class="apology">Sorry, There are No Vacancies for ${formattedDate}</h1>`;
   },
   
   createResultHTML(searchResults, formattedDate, bidetBlurb, room, uppercaseBedSize) {
