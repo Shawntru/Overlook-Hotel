@@ -6,11 +6,12 @@ let dom = {
     return document.getElementById(`${textbox}-input`).value;
   },
 
-  switchView(view) {
+  switchView(inputView) {
     scroll(0, 0);
     const views = ['.user-page', '.login-page', '.search-results'];
     views.forEach(view => document.querySelector(view).classList.add('hidden'));
-    document.querySelector(view).classList.remove('hidden');
+    if (!inputView) return;
+    document.querySelector(inputView).classList.remove('hidden');
   },
 
   loadUserInfo(user, element){
@@ -82,6 +83,16 @@ let dom = {
 
   showBooked(bookingData) {
     document.getElementById(bookingData).innerText = 'Booked!';
+  },
+
+  buildManagerDash(currentUser) {
+    const managerPage = document.querySelector('.manager-page');
+    const customerList = document.getElementById('customer-list');
+    managerPage.classList.remove('hidden');
+    currentUser.userList.forEach(user => {
+      customerList.insertAdjacentHTML('beforeend', `
+        <option value="${user.id}">User: ${user.id}  -  ${user.name}</option>`)
+    });
   },
 
   buildSearchResult(availRooms, formattedDate) {

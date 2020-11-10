@@ -6,6 +6,17 @@
   border: $primary-accent 3px solid;
   width: 95%;
   height: auto;
-  min-height: 30vh;
+  min-height: 20vh;
   border-radius: 5px;
+}
+
+.dashboard-contents {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.manager-user-list {
+  display: flex;
+  align-items: center;
 }

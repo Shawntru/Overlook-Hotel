@@ -28,9 +28,17 @@ const userInfo = document.querySelector('.user-booking-info')
 const searchResultsList = document.querySelector('.search-listings');
 const navUserOverview = document.getElementById('nav-overview');
 const navUserLogout = document.getElementById('nav-logout');
+const viewUserButton = document.getElementById('view-user-button');
+const managerUserList = document.getElementById('customer-list');
 
 loginButton.addEventListener('click', checkLoginInfo);
 checkAvailButton.addEventListener('click', () => { dom.checkAvailability(dateCalendar.value) });
+
+viewUserButton.addEventListener('click', () => {
+  currentUser = new User(parseInt(managerUserList.value));
+  dom.switchView('.user-page');
+  dom.loadUserInfo(currentUser, userNameDisplay);
+})
 
 userInfo.addEventListener('click', (event) => {
   if (event.target.className === 'button res-cancel-button upcoming'
@@ -68,15 +76,24 @@ function fetchSiteData(isRefresh) {
       hotel.bookingInfo = value[1];
       hotel.userList = value[2];
 
-      // SKIPPING LOGIN 
-
+      // DEBUG: SKIPPING LOGIN 
       if (runTime) {
         runTime = false;
-        currentUser = new User(50);
-        loginUser();
+        // loginUser(2);
+        loginManager();
+      // SKIPPING LOGIN 
       };
 
-      // SKIPPING LOGIN 
+      // DEBUG: ARE ALL USERS DATA LEGIT
+      // hotel.userList.forEach(user => {
+      //   loginUser(user.id);
+      //   console.log(user.id);
+      // })
+
+      // DEBUG: FOR REMOVING BAD RESERVATIONS
+      // console.log(hotel.bookingInfo.filter(booking => booking.userID === 1));
+      // currentUser.removeReservation(1604956114776);
+      // currentUser.removeReservation(1604956205689);
 
       if (isRefresh) {
         currentUser.updateUserInfo();
@@ -90,13 +107,12 @@ function checkLoginInfo() {
   let username = dom.getLoginCreds('username');
   let password = dom.getLoginCreds('password');
   if (username === 'manager' && password === 'overlook2020') {
-    loginManager(hotel.userList);
+    loginManager();
     return;
   }
   const userId = parseInt(username.slice(8, username.length));
   if (isValidLogin(username, password, userId)) {
-    currentUser = new User(userId);
-    loginUser();
+    loginUser(userId);
   } else {
     alert('Login not valid');
     return;
@@ -111,12 +127,24 @@ function isValidLogin(username, password, userId) {
     || password !== 'overlook2020')
 }
 
-function loginUser() {
-  dom.retractHeader(headerDisplay);
+function loginUser(userId) {
+  currentUser = new User(userId)
+  loginAnimations();
   dom.switchView('.user-page');
   dom.loadUserInfo(currentUser, userNameDisplay);
+}
+
+function loginAnimations() {
   dom.displayNavLinks();
+  dom.retractHeader(headerDisplay);
   setCalendarRange();
+}
+
+function loginManager() {
+  currentUser = new Manager('Manager');
+  loginAnimations();
+  dom.switchView();
+  dom.buildManagerDash(currentUser);
 }
 
 function setCalendarRange() {

@@ -25,19 +25,22 @@
         <button id="login-button">GO!</button> 
       </section>
     </main>
-    <main class="manager-page">
+    <main class="manager-page hidden">
       <section class="manager-dash">
         <h3>Manager Dashboard</h3>
-        <article>
+        <article class="dashboard-contents">
           <div class="daily-stats">
-            <p>Rooms Available Today: 25 (100% Vacancy)</p>
-            <p>Total Revenue Today: 325</p>
+            <p>Rooms Available Today: # (#% Vacancy)</p>
+            <p>Total Revenue Today: #</p>
           </div>
-          <form>
-            <select name="customer-number">
-              <option value="customer#">Customer Number</option>
-            </select>
-          </form>
+          <div class="manager-user-list">
+            <form>
+              <select id="customer-list" name="customer-number">
+                <option value="none" selected disabled hidden>Choose Customer:</option>
+              </select>
+            </form>
+            <button class="button" id="view-user-button">View User Details</button>
+          </div>
         </article>
       </section>
     </main>
