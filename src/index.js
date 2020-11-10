@@ -16,6 +16,7 @@ import api from './fetch';
 import hotel from './hotel';
 import User from './User';
 import Manager from './Manager';
+import managerChart from './manager-chart';
 
 let currentUser;
 
@@ -30,6 +31,8 @@ const navUserOverview = document.getElementById('nav-overview');
 const navUserLogout = document.getElementById('nav-logout');
 const viewUserButton = document.getElementById('view-user-button');
 const managerUserList = document.getElementById('customer-list');
+const dailyStats = document.querySelector('.daily-stats');
+const filterSearchButton = document.getElementById('search-filter-button');
 
 loginButton.addEventListener('click', checkLoginInfo);
 checkAvailButton.addEventListener('click', () => { dom.checkAvailability(dateCalendar.value) });
@@ -38,6 +41,11 @@ viewUserButton.addEventListener('click', () => {
   currentUser = new User(parseInt(managerUserList.value));
   dom.switchView('.user-page');
   dom.loadUserInfo(currentUser, userNameDisplay);
+})
+
+filterSearchButton.addEventListener('click', () => {
+  const e = document.getElementById('search-filter');
+  dom.checkAvailability(dateCalendar.value, e.value);
 })
 
 userInfo.addEventListener('click', (event) => {
@@ -68,7 +76,10 @@ window.onload = () => {
   fetchSiteData();
 };
 
+// DEBUG: SKIPPING LOGIN
 let runTime = true;
+// DEBUG: SKIPPING LOGIN
+
 function fetchSiteData(isRefresh) {
   Promise.all([api.fetchData('rooms'), api.fetchData('bookings'), api.fetchData('users')])
     .then(value => {
@@ -79,21 +90,23 @@ function fetchSiteData(isRefresh) {
       // DEBUG: SKIPPING LOGIN 
       if (runTime) {
         runTime = false;
-        // loginUser(2);
-        loginManager();
-      // SKIPPING LOGIN 
+        loginUser(50);
+        // loginManager();
       };
+      // DEBUG: SKIPPING LOGIN 
 
       // DEBUG: ARE ALL USERS DATA LEGIT
       // hotel.userList.forEach(user => {
       //   loginUser(user.id);
       //   console.log(user.id);
       // })
+      // DEBUG: ARE ALL USERS DATA LEGIT
 
       // DEBUG: FOR REMOVING BAD RESERVATIONS
       // console.log(hotel.bookingInfo.filter(booking => booking.userID === 1));
       // currentUser.removeReservation(1604956114776);
       // currentUser.removeReservation(1604956205689);
+      // DEBUG: FOR REMOVING BAD RESERVATIONS
 
       if (isRefresh) {
         currentUser.updateUserInfo();
@@ -144,7 +157,7 @@ function loginManager() {
   currentUser = new Manager('Manager');
   loginAnimations();
   dom.switchView();
-  dom.buildManagerDash(currentUser);
+  dom.buildManagerDash(currentUser, dailyStats);
 }
 
 function setCalendarRange() {
@@ -153,14 +166,12 @@ function setCalendarRange() {
 }
 
 function verifyReservationCancel(reservationID) {
-  // if (!window.confirm("Are you sure you want to delete this reservation?")) return;
   currentUser.removeReservation(reservationID);
   dom.showCancelled(reservationID);
   setTimeout(() => { fetchSiteData(true) }, 1000);
 }
 
 function verifyMakeReservation(bookingData) {
-  // if (!window.confirm(`Make a reservation for Room ${bookingData[0]} on ${bookingData[1]}?`)) return;
   currentUser.makeReservation(currentUser.id, bookingData[1], bookingData[0]);
   dom.showBooked(bookingData.join('-'));
   setTimeout(() => { fetchSiteData(true);

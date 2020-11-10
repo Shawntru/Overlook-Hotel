@@ -69,14 +69,6 @@ let dom = {
     header.style.height = '4em';
   },
 
-  checkAvailability(dateRequest) {
-    if (!dateRequest) return;
-    const formattedDate = dateRequest.replace(/-/g, "/");
-    let availRooms = hotel.getRoomAvailabilities(formattedDate);
-    dom.switchView('.search-results');
-    dom.buildSearchResult(availRooms, formattedDate)
-  },
-
   showCancelled(buttonId) {
     document.getElementById(buttonId).innerText = 'Cancelled!';
   },
@@ -85,7 +77,9 @@ let dom = {
     document.getElementById(bookingData).innerText = 'Booked!';
   },
 
-  buildManagerDash(currentUser) {
+  buildManagerDash(currentUser, dailyStats) {
+    this.getManagementStats(dailyStats);
+    // this.buildManagerChart();
     const managerPage = document.querySelector('.manager-page');
     const customerList = document.getElementById('customer-list');
     managerPage.classList.remove('hidden');
@@ -95,11 +89,38 @@ let dom = {
     });
   },
 
+  // buildManagerChart(managerChart) {
+    
+  // },
+
+  getManagementStats(dailyStats) {
+    const today = this.getDateToday();
+    const availableRooms = hotel.getRoomAvailabilities(today).length;
+    const vacancyRatio = Math.round((availableRooms / 25) * 100);
+    const revenueToday = hotel.getDailyRevenue(today);
+    dailyStats.innerHTML =
+      `<h4>Rooms Available Today:  ${availableRooms}  (${vacancyRatio}% Vacancy)</h4>
+      <br>
+      <h4>Total Revenue Today:  $${revenueToday}</h4>`
+  },
+
+  checkAvailability(dateRequest, type) {
+    if (!dateRequest) return;
+    const formattedDate = dateRequest.replace(/-/g, "/");
+    let availRooms = hotel.getRoomAvailabilities(formattedDate);
+    if (type) {
+      availRooms = hotel.filterRoomsByType(availRooms, type);
+    }
+    dom.switchView('.search-results');
+    dom.buildSearchResult(availRooms, formattedDate);
+  },
+
   buildSearchResult(availRooms, formattedDate) {
     const searchResults = document.querySelector('.search-listings');
     searchResults.innerHTML = `<ul class="search-listings"></ul>`;
     if (!availRooms) {
-      this.displayApology(searchResults, formattedDate);
+      searchResults.innerHTML = 
+        `<h1 class="apology">Sorry, There are No Vacancies for ${formattedDate}</h1>`;
       return;
     }
     let bidetBlurb = "";
@@ -109,10 +130,6 @@ let dom = {
       const uppercaseBedSize = room.bedSize.charAt(0).toUpperCase() + room.bedSize.slice(1);
       this.createResultHTML(searchResults, formattedDate, bidetBlurb, room, uppercaseBedSize);
     })
-  },
-
-  displayApology(searchResults, formattedDate) {
-    searchResults.innerHTML = `<h1 class="apology">Sorry, There are No Vacancies for ${formattedDate}</h1>`;
   },
   
   createResultHTML(searchResults, formattedDate, bidetBlurb, room, uppercaseBedSize) {

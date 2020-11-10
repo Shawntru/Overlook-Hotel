@@ -15,6 +15,15 @@ let hotel = {
 
   filterRoomsByType(rooms, type) {
     return rooms.filter(room => room.roomType === type);
+  },
+
+  getDailyRevenue(date) {
+    const revenue = this.roomInfo
+      .filter(room => !!(this.findRoomBooked(date, room.number)))
+      .reduce((dailyRevenue, room) => {
+        return dailyRevenue += room.costPerNight;
+      }, 0)
+    return (Math.round(revenue * 100) / 100);
   }
 
 } 

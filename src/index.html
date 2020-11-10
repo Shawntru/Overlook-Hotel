@@ -29,10 +29,7 @@
       <section class="manager-dash">
         <h3>Manager Dashboard</h3>
         <article class="dashboard-contents">
-          <div class="daily-stats">
-            <p>Rooms Available Today: # (#% Vacancy)</p>
-            <p>Total Revenue Today: #</p>
-          </div>
+          <div class="daily-stats"></div>
           <div class="manager-user-list">
             <form>
               <select id="customer-list" name="customer-number">
@@ -42,6 +39,7 @@
             <button class="button" id="view-user-button">View User Details</button>
           </div>
         </article>
+        <canvas id="manager-chart"></canvas>
       </section>
     </main>
     <main class="user-page hidden">
@@ -73,6 +71,16 @@
       <section class="user-search-landing">
         <aside class="search-params">
           <h2>Search Results</h2>
+          <form>
+            <select id="search-filter" name="search-filter">
+              <option value="none" selected disabled hidden>Filter By Room Type:</option>
+              <option value="residential suite">Residential Suite</option>
+              <option value="junior suite">Junior Suite</option>
+              <option value="suite">Suite</option>
+              <option value="single room">Single Room</option>
+            </select>
+          </form>
+          <button class="button" id="search-filter-button">Filter Results</button>
         </aside>
         <ul class="search-listings"></ul>
       </section>
