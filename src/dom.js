@@ -69,14 +69,6 @@ let dom = {
     header.style.height = '4em';
   },
 
-  checkAvailability(dateRequest) {
-    if (!dateRequest) return;
-    const formattedDate = dateRequest.replace(/-/g, "/");
-    let availRooms = hotel.getRoomAvailabilities(formattedDate);
-    dom.switchView('.search-results');
-    dom.buildSearchResult(availRooms, formattedDate)
-  },
-
   showCancelled(buttonId) {
     document.getElementById(buttonId).innerText = 'Cancelled!';
   },
@@ -87,6 +79,7 @@ let dom = {
 
   buildManagerDash(currentUser, dailyStats) {
     this.getManagementStats(dailyStats);
+    // this.buildManagerChart();
     const managerPage = document.querySelector('.manager-page');
     const customerList = document.getElementById('customer-list');
     managerPage.classList.remove('hidden');
@@ -95,6 +88,10 @@ let dom = {
         <option value="${user.id}">User: ${user.id}  -  ${user.name}</option>`)
     });
   },
+
+  // buildManagerChart(managerChart) {
+    
+  // },
 
   getManagementStats(dailyStats) {
     const today = this.getDateToday();
@@ -105,6 +102,17 @@ let dom = {
       `<h4>Rooms Available Today:  ${availableRooms}  (${vacancyRatio}% Vacancy)</h4>
       <br>
       <h4>Total Revenue Today:  $${revenueToday}</h4>`
+  },
+
+  checkAvailability(dateRequest, type) {
+    if (!dateRequest) return;
+    const formattedDate = dateRequest.replace(/-/g, "/");
+    let availRooms = hotel.getRoomAvailabilities(formattedDate);
+    if (type) {
+      availRooms = hotel.filterRoomsByType(availRooms, type);
+    }
+    dom.switchView('.search-results');
+    dom.buildSearchResult(availRooms, formattedDate);
   },
 
   buildSearchResult(availRooms, formattedDate) {

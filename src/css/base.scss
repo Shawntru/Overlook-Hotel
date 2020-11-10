@@ -3,6 +3,7 @@
 @import './navigation.scss';
 @import './variables';
 @import './manager';
+@import './chart.scss';
 
 * {
   margin: 0px;
@@ -136,7 +137,9 @@ h3 {
 .search-params {
   width: 30%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10em;
 }
 
 .search-listings {

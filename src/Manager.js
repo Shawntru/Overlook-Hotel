@@ -7,13 +7,10 @@ class Manager extends User {
     this.userList = hotel.userList.map(user => {
       return {id: user.id, name: user.name}
     });
-    this.viewingUser = 0;
   }
 
   findUserByName(userName) {
-    let foundUser = this.userList.find(user => user.name === userName);
-    this.viewingUser = foundUser;
-    return foundUser;
+    return this.userList.find(user => user.name === userName);
   }
 
 }

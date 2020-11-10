@@ -16,6 +16,7 @@ import api from './fetch';
 import hotel from './hotel';
 import User from './User';
 import Manager from './Manager';
+import managerChart from './manager-chart';
 
 let currentUser;
 
@@ -31,6 +32,7 @@ const navUserLogout = document.getElementById('nav-logout');
 const viewUserButton = document.getElementById('view-user-button');
 const managerUserList = document.getElementById('customer-list');
 const dailyStats = document.querySelector('.daily-stats');
+const filterSearchButton = document.getElementById('search-filter-button');
 
 loginButton.addEventListener('click', checkLoginInfo);
 checkAvailButton.addEventListener('click', () => { dom.checkAvailability(dateCalendar.value) });
@@ -39,6 +41,11 @@ viewUserButton.addEventListener('click', () => {
   currentUser = new User(parseInt(managerUserList.value));
   dom.switchView('.user-page');
   dom.loadUserInfo(currentUser, userNameDisplay);
+})
+
+filterSearchButton.addEventListener('click', () => {
+  const e = document.getElementById('search-filter');
+  dom.checkAvailability(dateCalendar.value, e.value);
 })
 
 userInfo.addEventListener('click', (event) => {
@@ -83,8 +90,8 @@ function fetchSiteData(isRefresh) {
       // DEBUG: SKIPPING LOGIN 
       if (runTime) {
         runTime = false;
-        // loginUser(2);
-        loginManager();
+        loginUser(50);
+        // loginManager();
       };
       // DEBUG: SKIPPING LOGIN 
 
@@ -94,7 +101,6 @@ function fetchSiteData(isRefresh) {
       //   console.log(user.id);
       // })
       // DEBUG: ARE ALL USERS DATA LEGIT
-
 
       // DEBUG: FOR REMOVING BAD RESERVATIONS
       // console.log(hotel.bookingInfo.filter(booking => booking.userID === 1));
