@@ -6,6 +6,11 @@
   <body>
     <header class="header">
       <h1 class="page-title">the <span id="overlook-head">OVERLOOK</span> at meridian</h1>
+      <nav class="navigation hidden">
+        <h2 id="nav-overview">User Overview</h2>
+        <h2>|</h2>
+        <h2 id="nav-logout">Logout</h2>
+      </nav>
     </header>
     <main class="login-page">
       <section class="login-block">
@@ -15,9 +20,28 @@
         </div>
         <div class="user-login-input">
           <p>Password:</p>
-          <input id="password-input" autocomplete="off" type="text" name="password" value="">
+          <input id="password-input" autocomplete="off" type="password" name="password" value="">
         </div>
         <button id="login-button">GO!</button> 
+      </section>
+    </main>
+    <main class="manager-page hidden">
+      <section class="manager-dash">
+        <h3>Manager Dashboard</h3>
+        <article class="dashboard-contents">
+          <div class="daily-stats">
+            <p>Rooms Available Today: # (#% Vacancy)</p>
+            <p>Total Revenue Today: #</p>
+          </div>
+          <div class="manager-user-list">
+            <form>
+              <select id="customer-list" name="customer-number">
+                <option value="none" selected disabled hidden>Choose Customer:</option>
+              </select>
+            </form>
+            <button class="button" id="view-user-button">View User Details</button>
+          </div>
+        </article>
       </section>
     </main>
     <main class="user-page hidden">
@@ -39,7 +63,7 @@
             <article class="make-new-booking">
               <h3>Book a New Stay!</h3>
               <input id="date-input" type="date" autocomplete="off">
-              <button id="check-avail-button">Check Availabilities</button>
+              <button class="button" id="check-avail-button">Check Availabilities</button>
             </article>
           </section>
         </article>
@@ -48,6 +72,7 @@
     <main class="search-results hidden">
       <section class="user-search-landing">
         <aside class="search-params">
+          <h2>Search Results</h2>
         </aside>
         <ul class="search-listings"></ul>
       </section>

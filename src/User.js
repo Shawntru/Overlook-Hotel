@@ -4,15 +4,18 @@ import api from "./fetch";
 class User {
   constructor (userId) {
     this.id = userId;
-    this.name = this.findUserName(hotel.userList);
+    if (this.id !== 'Manager') this.updateUserInfo();
+  }
+
+  updateUserInfo() {
+    this.name = this.findUserName();
     this.bookings = this.getListOfBookings(this.id);
     this.totalSpent = this.calculateRoomSpending(this.id);
     this.loyaltyLevel = this.calculateLoyaltyLevel(this.totalSpent);
   }
 
-  findUserName(userList) {
-    if (this.id === 'Manager') return 'Manager';
-    return userList.find(user => this.id === user.id).name;
+  findUserName() {
+    return hotel.userList.find(customer => this.id === customer.id).name;
   }
   
   getListOfBookings(userId) {

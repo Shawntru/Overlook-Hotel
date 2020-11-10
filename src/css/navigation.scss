@@ -1,0 +1,36 @@
+@import './variables';
+
+.header {
+  display: flex;
+  font-family: 'Cinzel', serif;
+  background: $primary-dark;
+  height: 10em;
+  width: 100wv;
+}
+
+.page-title {
+  width: 100%;
+  color: floralwhite;
+  font-size: 20px;
+  margin-left: 10px;
+  display: flex;
+  padding: 10px;
+}
+
+.navigation {
+  width: 50%;
+  font-family: 'Lato', sans-serif;
+  display: flex;
+  color: $primary-background;
+  font-size: 12px;
+  justify-content: flex-end;
+  align-items: flex-end;
+  margin-right: 25px;
+}
+
+#nav-overview, #nav-logout {
+  &:hover {
+    text-shadow: 0px 0px 5px $primary-accent;
+    cursor: pointer;
+  }
+}

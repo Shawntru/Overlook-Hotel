@@ -1,0 +1,22 @@
+@import './variables';
+
+.manager-dash {
+  background: rgba(255, 250, 240, 0.9);
+  margin: 30px;
+  border: $primary-accent 3px solid;
+  width: 95%;
+  height: auto;
+  min-height: 20vh;
+  border-radius: 5px;
+}
+
+.dashboard-contents {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.manager-user-list {
+  display: flex;
+  align-items: center;
+}

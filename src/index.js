@@ -24,50 +24,95 @@ const userNameDisplay = document.querySelector('.user-display-name');
 const headerDisplay = document.querySelector('.header');
 const checkAvailButton = document.getElementById('check-avail-button');
 const dateCalendar = document.getElementById('date-input');
-const upcomingStays = document.getElementById('upcoming-stays');
+const userInfo = document.querySelector('.user-booking-info')
 const searchResultsList = document.querySelector('.search-listings');
+const navUserOverview = document.getElementById('nav-overview');
+const navUserLogout = document.getElementById('nav-logout');
+const viewUserButton = document.getElementById('view-user-button');
+const managerUserList = document.getElementById('customer-list');
 
 loginButton.addEventListener('click', checkLoginInfo);
 checkAvailButton.addEventListener('click', () => { dom.checkAvailability(dateCalendar.value) });
-upcomingStays.addEventListener('click', (event) => {
-  if (event.target.className === 'res-cancel-button upcoming'
+
+viewUserButton.addEventListener('click', () => {
+  currentUser = new User(parseInt(managerUserList.value));
+  dom.switchView('.user-page');
+  dom.loadUserInfo(currentUser, userNameDisplay);
+})
+
+userInfo.addEventListener('click', (event) => {
+  if (event.target.className === 'button res-cancel-button upcoming'
     && event.target.innerText !== 'Cancelled!') {
       verifyReservationCancel(event.toElement.id);
-  } });
+  } }
+)
+
 searchResultsList.addEventListener('click', (event) => {
-  if (event.target.className === 'make-res-button'
+  if (event.target.className === 'button make-res-button'
     && event.target.innerText !== 'Booked!') {
     const bookingData = event.toElement.id.split('-');
     verifyMakeReservation(bookingData);
   }
 })
 
-window.onload = fetchSiteData();
+navUserOverview.addEventListener('click', () => {
+  fetchSiteData(true);
+  dom.switchView('.user-page');
+})
 
-function fetchSiteData() {
+navUserLogout.addEventListener('click', () => {
+  location.reload();
+})
+
+window.onload = () => {
+  fetchSiteData();
+};
+
+let runTime = true;
+function fetchSiteData(isRefresh) {
   Promise.all([api.fetchData('rooms'), api.fetchData('bookings'), api.fetchData('users')])
     .then(value => {
       hotel.roomInfo = value[0];
       hotel.bookingInfo = value[1];
       hotel.userList = value[2];
 
+      // DEBUG: SKIPPING LOGIN 
+      if (runTime) {
+        runTime = false;
+        // loginUser(2);
+        loginManager();
       // SKIPPING LOGIN 
-      loginUser(4);
-      // SKIPPING LOGIN 
+      };
 
-    })
+      // DEBUG: ARE ALL USERS DATA LEGIT
+      // hotel.userList.forEach(user => {
+      //   loginUser(user.id);
+      //   console.log(user.id);
+      // })
+
+      // DEBUG: FOR REMOVING BAD RESERVATIONS
+      // console.log(hotel.bookingInfo.filter(booking => booking.userID === 1));
+      // currentUser.removeReservation(1604956114776);
+      // currentUser.removeReservation(1604956205689);
+
+      if (isRefresh) {
+        currentUser.updateUserInfo();
+        dom.loadUserInfo(currentUser, userNameDisplay);
+      }
+    }
+  )
 }
 
 function checkLoginInfo() {
   let username = dom.getLoginCreds('username');
   let password = dom.getLoginCreds('password');
   if (username === 'manager' && password === 'overlook2020') {
-    loginManager(hotel.userList);
+    loginManager();
     return;
   }
   const userId = parseInt(username.slice(8, username.length));
   if (isValidLogin(username, password, userId)) {
-    loginUser(userId, hotel.userList);
+    loginUser(userId);
   } else {
     alert('Login not valid');
     return;
@@ -83,31 +128,41 @@ function isValidLogin(username, password, userId) {
 }
 
 function loginUser(userId) {
-  currentUser = new User(userId);
-  console.log(currentUser);
-  dom.retractHeader(headerDisplay);
-  // dom.switchView('.search-results');
+  currentUser = new User(userId)
+  loginAnimations();
   dom.switchView('.user-page');
   dom.loadUserInfo(currentUser, userNameDisplay);
+}
 
-  // TODO: Create dom function to handle all login animations
+function loginAnimations() {
+  dom.displayNavLinks();
+  dom.retractHeader(headerDisplay);
+  setCalendarRange();
+}
+
+function loginManager() {
+  currentUser = new Manager('Manager');
+  loginAnimations();
+  dom.switchView();
+  dom.buildManagerDash(currentUser);
+}
+
+function setCalendarRange() {
+  let todaysDate = dom.getDateToday();
+  dateCalendar.setAttribute('min', todaysDate.replace(/\//g, "-"));
 }
 
 function verifyReservationCancel(reservationID) {
-  if (!window.confirm("Are you sure you want to delete this reservation?")) return;
+  // if (!window.confirm("Are you sure you want to delete this reservation?")) return;
   currentUser.removeReservation(reservationID);
   dom.showCancelled(reservationID);
+  setTimeout(() => { fetchSiteData(true) }, 1000);
 }
 
 function verifyMakeReservation(bookingData) {
-  if (!window.confirm(`Make a reservation for Room ${bookingData[0]} on ${bookingData[1]}?`)) return;
+  // if (!window.confirm(`Make a reservation for Room ${bookingData[0]} on ${bookingData[1]}?`)) return;
   currentUser.makeReservation(currentUser.id, bookingData[1], bookingData[0]);
   dom.showBooked(bookingData.join('-'));
+  setTimeout(() => { fetchSiteData(true);
+    dom.switchView('.user-page') }, 1000);
 }
-
-// function loginManager() {
-//   currentUser = new Manager('Manager')
-//   console.log(currentUser);
-// }
-
-

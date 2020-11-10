@@ -1,8 +1,8 @@
-$primary-background: floralwhite;
-$primary-dark: rgb(36, 36, 36);
-$primary-accent: rgb(255, 123, 0);
-
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=Lato&display=swap');
+@import './buttons.scss';
+@import './navigation.scss';
+@import './variables';
+@import './manager';
 
 * {
   margin: 0px;
@@ -19,23 +19,17 @@ body {
   height: 100%;
 }
 
+h2 {
+  margin: 10px;
+}
+
+h3 {
+  margin: 10px;
+  border-bottom: 1px solid $primary-dark;
+}
+
 .hidden, .past {
   display: none !important;
-}
-
-.header {
-  font-family: 'Cinzel', serif;
-  background: $primary-dark;
-  height: 10em;
-  width: 100wv;
-}
-
-.page-title {
-  color: floralwhite;
-  font-size: 20px;
-  margin-left: 10px;
-  display: flex;
-  padding: 10px;
 }
 
 .login-page {
@@ -57,7 +51,7 @@ body {
 
 }
 
-.user-page, .search-results {
+.user-page, .search-results, .manager-page {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -73,9 +67,10 @@ body {
   background: rgba(255, 250, 240, 0.9);
   margin: 30px;
   border: $primary-accent 1px solid;
-  width: 90%;
+  width: 95%;
   height: auto;
   min-height: 80vh;
+  border-radius: 5px;
 }
 
 .user-search-landing{
@@ -139,6 +134,8 @@ body {
 
 .search-params {
   width: 30%;
+  display: flex;
+  justify-content: center;
 }
 
 .search-listings {
@@ -147,21 +144,26 @@ body {
   padding: 0px;
 }
 
+.apology {
+  text-align: center;
+  margin: 20px;
+}
+
 .room-information {
   width: 100%;
-  margin: 10px;
+  margin: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  align-items: flex-start;
+  justify-content: space-between;
+  align-items: stretch;
 }
 
 .room-result-block {
-  border: 1px solid $primary-accent;
+  border: 1px solid $primary-dark;
   margin: 20px;
   display: flex;
   justify-content: space-between;
-
+  align-items: center;
 }
 
 .upcoming-entry {
@@ -169,13 +171,27 @@ body {
 }
 
 #room-image {
-  border: 1px solid $primary-dark;
-  height: 100px;
-  width: 200px;
+  border-right: 1px solid $primary-dark;
+  height: 150px;
+  width: 225px;
 }
 
 #overlook-head {
   color: $primary-accent;
   font-size: 45px;
   margin: 0px 5px;
+}
+
+#date-input {
+  font-family: 'Lato', sans-serif;
+  text-align: center;
+  transform: scale(2);
+  margin: 20px;
+  border-radius: 50px;
+  border: 2px solid $primary-dark;
+  background-color: $primary-accent;
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0px 0px 10px $primary-dark;
+  }
 }

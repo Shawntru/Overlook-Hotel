@@ -4,7 +4,9 @@ import hotel from './hotel';
 class Manager extends User {
   constructor(userId) {
     super(userId);
-    this.userList = hotel.userList.map(user => new User(user.id));
+    this.userList = hotel.userList.map(user => {
+      return {id: user.id, name: user.name}
+    });
     this.viewingUser = 0;
   }
 

@@ -1,0 +1,24 @@
+@import './variables';
+
+.button {
+  border: $primary-dark 1px solid;
+  border-radius: 5px;
+  color: $primary-dark;
+  background: $primary-accent;
+  font-size: 16px;
+  width: 150px;
+  height: 80px;
+  margin: 20px;
+  &:hover {
+    cursor: pointer;
+    background: lighten($color: $primary-accent, $amount: 15%)
+  }
+}
+
+.make-res-button {
+  width: 15em;
+}
+
+#view-user-button {
+  height: 25px;
+}

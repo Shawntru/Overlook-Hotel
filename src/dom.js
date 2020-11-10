@@ -6,13 +6,16 @@ let dom = {
     return document.getElementById(`${textbox}-input`).value;
   },
 
-  switchView(view) {
+  switchView(inputView) {
+    scroll(0, 0);
     const views = ['.user-page', '.login-page', '.search-results'];
     views.forEach(view => document.querySelector(view).classList.add('hidden'));
-    document.querySelector(view).classList.remove('hidden');
+    if (!inputView) return;
+    document.querySelector(inputView).classList.remove('hidden');
   },
 
   loadUserInfo(user, element){
+    this.clearUserInfo();
     this.displayUserNameLoyalty(user, element);
     const dateToday = this.getDateToday();
     let timeframe;
@@ -26,9 +29,25 @@ let dom = {
             <p class="stay-listing">Date: ${booking.date} | Room #: ${booking.roomNumber} 
             <br> Confirmation #: ${booking.id}</p>
           </div>
-          <button class="res-cancel-button ${timeframe}" id="${booking.id}">Cancel Reservation</button>
+          <button class="button res-cancel-button ${timeframe}" id="${booking.id}">Cancel Reservation</button>
         </div>`)
     })
+  },
+
+  clearUserInfo() {
+    const userInfo = document.querySelector('.user-booking-info');
+    userInfo.innerHTML = 
+      `<article id="upcoming-stays">
+        <h3 class="stay-details">Upcoming Stays:</h3>
+      </article>
+      <article id="past-stays">
+        <h3 class="stay-details">Past Stays:</h3>
+      </article>`;
+  },
+
+  displayNavLinks() {
+    const navBar = document.querySelector('.navigation');
+    navBar.classList.remove('hidden');
   },
 
   displayUserNameLoyalty(user, element) {
@@ -55,7 +74,7 @@ let dom = {
     const formattedDate = dateRequest.replace(/-/g, "/");
     let availRooms = hotel.getRoomAvailabilities(formattedDate);
     dom.switchView('.search-results');
-    dom.buildSearchResultHTML(availRooms, formattedDate)
+    dom.buildSearchResult(availRooms, formattedDate)
   },
 
   showCancelled(buttonId) {
@@ -66,15 +85,39 @@ let dom = {
     document.getElementById(bookingData).innerText = 'Booked!';
   },
 
-  buildSearchResultHTML(availRooms, formattedDate) {
+  buildManagerDash(currentUser) {
+    const managerPage = document.querySelector('.manager-page');
+    const customerList = document.getElementById('customer-list');
+    managerPage.classList.remove('hidden');
+    currentUser.userList.forEach(user => {
+      customerList.insertAdjacentHTML('beforeend', `
+        <option value="${user.id}">User: ${user.id}  -  ${user.name}</option>`)
+    });
+  },
+
+  buildSearchResult(availRooms, formattedDate) {
     const searchResults = document.querySelector('.search-listings');
+    searchResults.innerHTML = `<ul class="search-listings"></ul>`;
+    if (!availRooms) {
+      this.displayApology(searchResults, formattedDate);
+      return;
+    }
     let bidetBlurb = "";
     availRooms.forEach(room => {
       if (room.bidet) bidetBlurb = " and a Luxury Bidet";
       else bidetBlurb = "";
       const uppercaseBedSize = room.bedSize.charAt(0).toUpperCase() + room.bedSize.slice(1);
+      this.createResultHTML(searchResults, formattedDate, bidetBlurb, room, uppercaseBedSize);
+    })
+  },
+
+  displayApology(searchResults, formattedDate) {
+    searchResults.innerHTML = `<h1 class="apology">Sorry, There are No Vacancies for ${formattedDate}</h1>`;
+  },
+  
+  createResultHTML(searchResults, formattedDate, bidetBlurb, room, uppercaseBedSize) {
       searchResults.insertAdjacentHTML('beforeend',
-      ` <li class="room-result-block">
+        ` <li class="room-result-block">
           <img id="room-image" src="./images/room-${Math.round(Math.random() * 10)}.jpg" alt="Photo of Room">
           <div class="room-information">
             <h3>Room ${room.number}</h3>
@@ -82,11 +125,11 @@ let dom = {
             <p>${room.numBeds} ${uppercaseBedSize} Size Beds${bidetBlurb}.</p>
             <p>Nightly Rate:  $${room.costPerNight}</p>
           </div>
-          <button class="make-res-button" id="${room.number}-${formattedDate}">Book This Room</button>
+          <button class="button make-res-button" id="${room.number}-${formattedDate}">Book This Room</button>
         </li>
         <div class="divider"></div>`)
-    })
-  }
+  },
+
 }
 
 export default dom;
