@@ -30,6 +30,7 @@ const navUserOverview = document.getElementById('nav-overview');
 const navUserLogout = document.getElementById('nav-logout');
 const viewUserButton = document.getElementById('view-user-button');
 const managerUserList = document.getElementById('customer-list');
+const dailyStats = document.querySelector('.daily-stats');
 
 loginButton.addEventListener('click', checkLoginInfo);
 checkAvailButton.addEventListener('click', () => { dom.checkAvailability(dateCalendar.value) });
@@ -68,7 +69,10 @@ window.onload = () => {
   fetchSiteData();
 };
 
+// DEBUG: SKIPPING LOGIN
 let runTime = true;
+// DEBUG: SKIPPING LOGIN
+
 function fetchSiteData(isRefresh) {
   Promise.all([api.fetchData('rooms'), api.fetchData('bookings'), api.fetchData('users')])
     .then(value => {
@@ -77,11 +81,11 @@ function fetchSiteData(isRefresh) {
       hotel.userList = value[2];
 
       // DEBUG: SKIPPING LOGIN 
-      // if (runTime) {
-      //   runTime = false;
-      //   loginUser(2);
-      //   loginManager();
-      // };
+      if (runTime) {
+        runTime = false;
+        // loginUser(2);
+        loginManager();
+      };
       // DEBUG: SKIPPING LOGIN 
 
       // DEBUG: ARE ALL USERS DATA LEGIT
@@ -147,7 +151,7 @@ function loginManager() {
   currentUser = new Manager('Manager');
   loginAnimations();
   dom.switchView();
-  dom.buildManagerDash(currentUser);
+  dom.buildManagerDash(currentUser, dailyStats);
 }
 
 function setCalendarRange() {

@@ -48,7 +48,8 @@ h3 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
+  transition: 1s ease;
+  border-radius: 5px;
 }
 
 .user-page, .search-results, .manager-page {
@@ -176,10 +177,8 @@ h3 {
   width: 225px;
 }
 
-#overlook-head {
-  color: $primary-accent;
-  font-size: 45px;
-  margin: 0px 5px;
+#login-button {
+  background-color: $primary-background;
 }
 
 #date-input {

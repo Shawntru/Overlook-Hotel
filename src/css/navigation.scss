@@ -15,6 +15,14 @@
   margin-left: 10px;
   display: flex;
   padding: 10px;
+  transition: 1s ease;
+}
+
+#overlook-head {
+  color: $primary-accent;
+  font-size: 45px;
+  margin: 0px 5px;
+  transition: 1s ease;
 }
 
 .navigation {

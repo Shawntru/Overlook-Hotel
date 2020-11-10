@@ -85,7 +85,8 @@ let dom = {
     document.getElementById(bookingData).innerText = 'Booked!';
   },
 
-  buildManagerDash(currentUser) {
+  buildManagerDash(currentUser, dailyStats) {
+    this.getManagementStats(dailyStats);
     const managerPage = document.querySelector('.manager-page');
     const customerList = document.getElementById('customer-list');
     managerPage.classList.remove('hidden');
@@ -93,6 +94,17 @@ let dom = {
       customerList.insertAdjacentHTML('beforeend', `
         <option value="${user.id}">User: ${user.id}  -  ${user.name}</option>`)
     });
+  },
+
+  getManagementStats(dailyStats) {
+    const today = this.getDateToday();
+    const availableRooms = hotel.getRoomAvailabilities(today).length;
+    const vacancyRatio = Math.round((availableRooms / 25) * 100);
+    const revenueToday = hotel.getDailyRevenue(today);
+    dailyStats.innerHTML =
+      `<h4>Rooms Available Today:  ${availableRooms}  (${vacancyRatio}% Vacancy)</h4>
+      <br>
+      <h4>Total Revenue Today:  $${revenueToday}</h4>`
   },
 
   buildSearchResult(availRooms, formattedDate) {
