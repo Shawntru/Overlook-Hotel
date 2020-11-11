@@ -29,18 +29,25 @@ const userInfo = document.querySelector('.user-booking-info')
 const searchResultsList = document.querySelector('.search-listings');
 const navUserOverview = document.getElementById('nav-overview');
 const navUserLogout = document.getElementById('nav-logout');
+const navManagerOverview = document.getElementById('nav-manager');
 const viewUserButton = document.getElementById('view-user-button');
 const managerUserList = document.getElementById('customer-list');
 const dailyStats = document.querySelector('.daily-stats');
 const filterSearchButton = document.getElementById('search-filter-button');
+const loginBlock = document.querySelector('.login-block');
 
 loginButton.addEventListener('click', checkLoginInfo);
 checkAvailButton.addEventListener('click', () => { dom.checkAvailability(dateCalendar.value) });
 
 viewUserButton.addEventListener('click', () => {
+  if (managerUserList.value === 'none') return;
   currentUser = new User(parseInt(managerUserList.value));
   dom.switchView('.user-page');
   dom.loadUserInfo(currentUser, userNameDisplay);
+})
+
+navManagerOverview.addEventListener('click', () => {
+  dom.switchView('.manager-chart');
 })
 
 filterSearchButton.addEventListener('click', () => {
@@ -64,6 +71,7 @@ searchResultsList.addEventListener('click', (event) => {
 })
 
 navUserOverview.addEventListener('click', () => {
+  if (currentUser.id === 'Manager') return;
   fetchSiteData(true);
   dom.switchView('.user-page');
 })
@@ -76,9 +84,7 @@ window.onload = () => {
   fetchSiteData();
 };
 
-// DEBUG: SKIPPING LOGIN
-let runTime = true;
-// DEBUG: SKIPPING LOGIN
+
 
 function fetchSiteData(isRefresh) {
   Promise.all([api.fetchData('rooms'), api.fetchData('bookings'), api.fetchData('users')])
@@ -88,12 +94,14 @@ function fetchSiteData(isRefresh) {
       hotel.userList = value[2];
 
       // DEBUG: SKIPPING LOGIN 
-      if (runTime) {
-        runTime = false;
-        loginUser(50);
+      if (!isRefresh) {
+        // loginUser(4);
         // loginManager();
       };
       // DEBUG: SKIPPING LOGIN 
+
+      // DEBUG: CHART BUILDING
+      // DEBUG: CHART BUILDING
 
       // DEBUG: ARE ALL USERS DATA LEGIT
       // hotel.userList.forEach(user => {
@@ -102,10 +110,12 @@ function fetchSiteData(isRefresh) {
       // })
       // DEBUG: ARE ALL USERS DATA LEGIT
 
+      // DEBUG: GETTING BROKEN USER INFO
+      // console.log(hotel.bookingInfo.filter(booking => booking.userID === 17));
+      // DEBUG: GETTING BROKEN USER INFO
+
       // DEBUG: FOR REMOVING BAD RESERVATIONS
-      // console.log(hotel.bookingInfo.filter(booking => booking.userID === 1));
-      // currentUser.removeReservation(1604956114776);
-      // currentUser.removeReservation(1604956205689);
+      // currentUser.removeReservation(1605021829413);
       // DEBUG: FOR REMOVING BAD RESERVATIONS
 
       if (isRefresh) {
@@ -117,8 +127,8 @@ function fetchSiteData(isRefresh) {
 }
 
 function checkLoginInfo() {
-  let username = dom.getLoginCreds('username');
-  let password = dom.getLoginCreds('password');
+  let username = dom.getLoginCreds('username').value;
+  let password = dom.getLoginCreds('password').value;
   if (username === 'manager' && password === 'overlook2020') {
     loginManager();
     return;
@@ -127,7 +137,7 @@ function checkLoginInfo() {
   if (isValidLogin(username, password, userId)) {
     loginUser(userId);
   } else {
-    alert('Login not valid');
+    dom.badLogin(loginBlock);
     return;
   }
 }
@@ -156,8 +166,8 @@ function loginAnimations() {
 function loginManager() {
   currentUser = new Manager('Manager');
   loginAnimations();
-  dom.switchView();
-  dom.buildManagerDash(currentUser, dailyStats);
+  dom.switchView('.manager-chart');
+  dom.buildManagerDash(currentUser, dailyStats, managerChart);
 }
 
 function setCalendarRange() {

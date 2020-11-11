@@ -3,15 +3,23 @@ import hotel from './hotel';
 let dom = {
   
   getLoginCreds(textbox) {
-    return document.getElementById(`${textbox}-input`).value;
+    return document.getElementById(`${textbox}-input`);
   },
 
   switchView(inputView) {
     scroll(0, 0);
-    const views = ['.user-page', '.login-page', '.search-results'];
+    const views = ['.user-page', '.login-page', '.search-results', '.manager-chart'];
     views.forEach(view => document.querySelector(view).classList.add('hidden'));
-    if (!inputView) return;
     document.querySelector(inputView).classList.remove('hidden');
+  },
+
+  badLogin(element) {
+    element.classList.toggle('shake');
+    setTimeout(() => {
+      element.classList.toggle('shake');
+    }, 820);
+    this.getLoginCreds('username').value = "";
+    this.getLoginCreds('password').value = "";
   },
 
   loadUserInfo(user, element){
@@ -19,8 +27,12 @@ let dom = {
     this.displayUserNameLoyalty(user, element);
     const dateToday = this.getDateToday();
     let timeframe;
+    let hasUpcoming = false;
     user.bookings.forEach(booking => {
-      if (booking.date >= dateToday) timeframe = 'upcoming';
+      if (booking.date >= dateToday) {
+        timeframe = 'upcoming';
+        hasUpcoming = true;
+      }
       else timeframe = 'past';
       document.getElementById(`${timeframe}-stays`)
         .insertAdjacentHTML('beforeend', `
@@ -32,6 +44,13 @@ let dom = {
           <button class="button res-cancel-button ${timeframe}" id="${booking.id}">Cancel Reservation</button>
         </div>`)
     })
+    if (!hasUpcoming) this.displayNoUpcoming() 
+  },
+
+  displayNoUpcoming() {
+    const upcomingStays = document.getElementById('upcoming-stays');
+    upcomingStays.insertAdjacentHTML('afterend', 
+      `<h4 class="apology">You have no upcoming stays. Use the calendar to book a new stay!</h4>`);
   },
 
   clearUserInfo() {
@@ -56,11 +75,14 @@ let dom = {
       .innerText = `Member Loyalty Level: ${user.loyaltyLevel} (${user.totalSpent} Reward Points)`;
   },
 
-  getDateToday() {
-    let today = new Date();
-    let dd = String(today.getDate()).padStart(2, '0');
-    let mm = String(today.getMonth() + 1).padStart(2, '0');
-    let yyyy = today.getFullYear();
+  getDateToday(dayModifier) {
+    let date = new Date();
+    if (dayModifier) {
+      date.setDate(date.getDate() + dayModifier);
+    }
+    let dd = String(date.getDate()).padStart(2, '0');
+    let mm = String(date.getMonth() + 1).padStart(2, '0');
+    let yyyy = date.getFullYear();
     return yyyy + '/' + mm + '/' + dd;
   },
 
@@ -77,21 +99,23 @@ let dom = {
     document.getElementById(bookingData).innerText = 'Booked!';
   },
 
-  buildManagerDash(currentUser, dailyStats) {
+  buildManagerDash(currentUser, dailyStats, managerChart) {
     this.getManagementStats(dailyStats);
-    // this.buildManagerChart();
+    this.buildChartRevenueData(managerChart);
+    this.addManagerNav();
     const managerPage = document.querySelector('.manager-page');
     const customerList = document.getElementById('customer-list');
     managerPage.classList.remove('hidden');
     currentUser.userList.forEach(user => {
       customerList.insertAdjacentHTML('beforeend', `
-        <option value="${user.id}">User: ${user.id}  -  ${user.name}</option>`)
+        <option value="${user.id}">User ${user.id}  -  ${user.name}</option>`)
     });
   },
 
-  // buildManagerChart(managerChart) {
-    
-  // },
+  addManagerNav() {
+    const navManager = document.getElementById('nav-manager')
+    navManager.classList.remove('hidden');
+  },
 
   getManagementStats(dailyStats) {
     const today = this.getDateToday();
@@ -146,6 +170,25 @@ let dom = {
         </li>
         <div class="divider"></div>`)
   },
+
+  buildChartDates() {
+    let day = 0;
+    let daysOfWeek = [];
+    while (daysOfWeek.length < 30) {
+      daysOfWeek.push(dom.getDateToday(day));
+      day++;
+    }
+    return daysOfWeek;
+  },
+
+  buildChartRevenueData(managerChart) {
+    const dates = this.buildChartDates();
+    const revenues = dates.reduce((revAmounts, date) => {
+      revAmounts.push(hotel.getDailyRevenue(date));
+      return revAmounts;
+    }, [])
+    managerChart.data.datasets[0].data = revenues;
+  }
 
 }
 

@@ -4,6 +4,7 @@
 @import './variables';
 @import './manager';
 @import './chart.scss';
+@import './animations';
 
 * {
   margin: 0px;
@@ -112,6 +113,13 @@ h3 {
   height: auto;
 }
 
+.search-filter-labeling {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .make-new-booking {
   width: 50%;
 }
@@ -180,18 +188,14 @@ h3 {
   width: 225px;
 }
 
-#login-button {
-  background-color: $primary-background;
-}
-
 #date-input {
   font-family: 'Lato', sans-serif;
   text-align: center;
   transform: scale(2);
   margin: 20px;
   border-radius: 50px;
-  border: 2px solid $primary-dark;
-  background-color: $primary-accent;
+  border: 1px solid $primary-dark;
+  background-color: rgba(255, 159, 64, 0.2);
   &:hover {
     cursor: pointer;
     box-shadow: 0px 0px 10px $primary-dark;
