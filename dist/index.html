@@ -1,13 +1,92 @@
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
-    <title>Webpack Starter Kit</title>
+    <title>Overlook Hotel</title>
   </head>
   <body>
-    <h1>Webpack Starter Kit</h1>
-
-    <img src="./images/turing-logo.png" alt="turing logo" height="100px" width="100px">
-
-    <!-- Do not include the index.js or main.bundle.js file here - it is done automatically by the webpack server -->
+    <header class="header">
+      <h1 class="page-title">the <span id="overlook-head">OVERLOOK</span> at meridian</h1>
+      <nav class="navigation hidden">
+        <h2 class="hidden" id="nav-manager">Manager</h2>
+        <h2 id="nav-overview">User</h2>
+        <h2>|</h2>
+        <h2 id="nav-logout">Logout</h2>
+      </nav>
+    </header>
+    <main class="login-page">
+      <section class="login-block">
+        <h5>Customer Portal</h5>
+        <div class="user-login-input">
+          <label for="username-input">Username:</label>
+          <input id="username-input" autocomplete="off" type="text" name="username" value="">
+        </div>
+        <div class="user-login-input">
+          <label for="password-input">Password:</label>
+          <input id="password-input" autocomplete="off" type="password" name="password" value="">
+        </div>
+        <button id="login-button">GO!</button> 
+      </section>
+    </main>
+    <main class="manager-page hidden">
+      <section class="manager-dash">
+        <h3>Manager Dashboard</h3>
+        <article class="dashboard-contents">
+          <div class="daily-stats"></div>
+          <div class="manager-user-list">
+            <form>
+              <label for="customer-list">Customer List: </label>
+              <select class="dropdown" id="customer-list" name="customer-number">
+                <option value="none" selected disabled hidden>Choose Customer</option>
+              </select>
+            </form>
+            <button class="button" id="view-user-button">View User Details</button>
+          </div>
+        </article>
+        <canvas id="manager-chart" class="manager-chart"></canvas>
+      </section>
+    </main>
+    <main class="user-page hidden">
+      <section class="user-landing">
+        <article class="user-information">
+          <div class="name-and-loyalty">
+            <p class="user-display-name">User Name</p>
+            <p class="user-display-loyalty">Loyalty Level</p>
+          </div>
+          <section class="user-details">
+            <article class="user-booking-info">
+              <article id="upcoming-stays">
+                <h3 class="stay-details">Upcoming Stays:</h3>
+              </article>
+              <article id="past-stays">
+                <h3 class="stay-details">Past Stays:</h3>
+              </article>
+            </article>
+            <article class="make-new-booking">
+              <label for="date-input"><h3>Book a New Stay!</h3></label> 
+              <input id="date-input" type="date" autocomplete="off">
+              <button class="button" id="check-avail-button">Check Availabilities</button>
+            </article>
+          </section>
+        </article>
+      </section>
+    </main>
+    <main class="search-results hidden">
+      <section class="user-search-landing">
+        <aside class="search-params">
+          <h2>Search Results</h2>
+          <form class="search-filter-labeling">
+            <label for="search-filter">Filter by Room Type:</label>
+            <select class="dropdown" id="search-filter" name="search-filter">
+              <option value="residential suite">Residential Suite</option>
+              <option value="junior suite">Junior Suite</option>
+              <option value="suite">Suite</option>
+              <option value="single room">Single Room</option>
+            </select>
+          </form>
+          <button class="button" id="search-filter-button">Filter Results</button>
+        </aside>
+        <ul class="search-listings"></ul>
+      </section>
+    </main>
   <script type="text/javascript" src="main.bundle.js"></script></body>
 </html>
