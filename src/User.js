@@ -1,8 +1,8 @@
-import hotel from "./hotel";
-import api from "./fetch";
+import hotel from './hotel';
+import api from './fetch';
 
 class User {
-  constructor (userId) {
+  constructor(userId) {
     this.id = userId;
     if (this.id !== 'Manager') this.updateUserInfo();
   }
@@ -15,21 +15,21 @@ class User {
   }
 
   findUserName() {
-    return hotel.userList.find(customer => this.id === customer.id).name;
+    return hotel.userList.find((customer) => this.id === customer.id).name;
   }
-  
+
   getListOfBookings(userId) {
-    let bookings = hotel.bookingInfo
-      .filter(booking => booking.userID === userId);
+    const bookings = hotel.bookingInfo
+      .filter((booking) => booking.userID === userId);
     return bookings.sort((a, b) => new Date(b.date) - new Date(a.date));
   }
-  
+
   calculateRoomSpending(userId) {
-    let spending = this.getListOfBookings(userId)
-    .map(booking => booking.costPerNight = hotel.roomInfo
-      .find(room => room.number === booking.roomNumber).costPerNight)
-      .reduce((sum, cost) => {return sum += cost}, 0)
-      return (Math.round(spending * 100) / 100);
+    const spending = this.getListOfBookings(userId)
+      .map((booking) => booking.costPerNight = hotel.roomInfo
+        .find((room) => room.number === booking.roomNumber).costPerNight)
+      .reduce((sum, cost) => sum += cost, 0);
+    return (Math.round(spending * 100) / 100);
   }
 
   calculateLoyaltyLevel(amountSpent) {
@@ -42,16 +42,12 @@ class User {
 
   makeReservation(userId, inputDate, roomNum) {
     Promise.all([api.createReservation(userId, inputDate, roomNum)])
-      .then(value => {
-        return value[0];
-      })
+      .then((value) => value[0]);
   }
 
   removeReservation(reservationId) {
     Promise.all([api.deleteReservation(reservationId)])
-      .then(value => {
-        return value[0];
-      })
+      .then((value) => value[0]);
   }
 }
 

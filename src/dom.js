@@ -1,7 +1,7 @@
 import hotel from './hotel';
 
-let dom = {
-  
+const dom = {
+
   getLoginCreds(textbox) {
     return document.getElementById(`${textbox}-input`);
   },
@@ -9,7 +9,7 @@ let dom = {
   switchView(inputView) {
     scroll(0, 0);
     const views = ['.user-page', '.login-page', '.search-results', '.manager-chart'];
-    views.forEach(view => document.querySelector(view).classList.add('hidden'));
+    views.forEach((view) => document.querySelector(view).classList.add('hidden'));
     document.querySelector(inputView).classList.remove('hidden');
   },
 
@@ -18,22 +18,21 @@ let dom = {
     setTimeout(() => {
       element.classList.toggle('shake');
     }, 820);
-    this.getLoginCreds('username').value = "";
-    this.getLoginCreds('password').value = "";
+    this.getLoginCreds('username').value = '';
+    this.getLoginCreds('password').value = '';
   },
 
-  loadUserInfo(user, element){
+  loadUserInfo(user, element) {
     this.clearUserInfo();
     this.displayUserNameLoyalty(user, element);
     const dateToday = this.getDateToday();
     let timeframe;
     let hasUpcoming = false;
-    user.bookings.forEach(booking => {
+    user.bookings.forEach((booking) => {
       if (booking.date >= dateToday) {
         timeframe = 'upcoming';
         hasUpcoming = true;
-      }
-      else timeframe = 'past';
+      } else timeframe = 'past';
       document.getElementById(`${timeframe}-stays`)
         .insertAdjacentHTML('beforeend', `
         <div class="upcoming-entry">
@@ -42,21 +41,20 @@ let dom = {
             <br> Confirmation #: ${booking.id}</p>
           </div>
           <button class="button res-cancel-button ${timeframe}" id="${booking.id}">Cancel Reservation</button>
-        </div>`)
-    })
-    if (!hasUpcoming) this.displayNoUpcoming() 
+        </div>`);
+    });
+    if (!hasUpcoming) this.displayNoUpcoming();
   },
 
   displayNoUpcoming() {
     const upcomingStays = document.getElementById('upcoming-stays');
-    upcomingStays.insertAdjacentHTML('afterend', 
-      `<h4 class="apology">You have no upcoming stays. Use the calendar to book a new stay!</h4>`);
+    upcomingStays.insertAdjacentHTML('afterend',
+      '<h4 class="apology">You have no upcoming stays. Use the calendar to book a new stay!</h4>');
   },
 
   clearUserInfo() {
     const userInfo = document.querySelector('.user-booking-info');
-    userInfo.innerHTML = 
-      `<article id="upcoming-stays">
+    userInfo.innerHTML = `<article id="upcoming-stays">
         <h3 class="stay-details">Upcoming Stays:</h3>
       </article>
       <article id="past-stays">
@@ -76,14 +74,14 @@ let dom = {
   },
 
   getDateToday(dayModifier) {
-    let date = new Date();
+    const date = new Date();
     if (dayModifier) {
       date.setDate(date.getDate() + dayModifier);
     }
-    let dd = String(date.getDate()).padStart(2, '0');
-    let mm = String(date.getMonth() + 1).padStart(2, '0');
-    let yyyy = date.getFullYear();
-    return yyyy + '/' + mm + '/' + dd;
+    const dd = String(date.getDate()).padStart(2, '0');
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const yyyy = date.getFullYear();
+    return `${yyyy}/${mm}/${dd}`;
   },
 
   retractHeader(header) {
@@ -106,14 +104,14 @@ let dom = {
     const managerPage = document.querySelector('.manager-page');
     const customerList = document.getElementById('customer-list');
     managerPage.classList.remove('hidden');
-    currentUser.userList.forEach(user => {
+    currentUser.userList.forEach((user) => {
       customerList.insertAdjacentHTML('beforeend', `
-        <option value="${user.id}">User ${user.id}  -  ${user.name}</option>`)
+        <option value="${user.id}">User ${user.id}  -  ${user.name}</option>`);
     });
   },
 
   addManagerNav() {
-    const navManager = document.getElementById('nav-manager')
+    const navManager = document.getElementById('nav-manager');
     navManager.classList.remove('hidden');
   },
 
@@ -122,15 +120,14 @@ let dom = {
     const availableRooms = hotel.getRoomAvailabilities(today).length;
     const vacancyRatio = Math.round((availableRooms / 25) * 100);
     const revenueToday = hotel.getDailyRevenue(today);
-    dailyStats.innerHTML =
-      `<h4>Rooms Available Today:  ${availableRooms}  (${vacancyRatio}% Vacancy)</h4>
+    dailyStats.innerHTML = `<h4>Rooms Available Today:  ${availableRooms}  (${vacancyRatio}% Vacancy)</h4>
       <br>
-      <h4>Total Revenue Today:  $${revenueToday}</h4>`
+      <h4>Total Revenue Today:  $${revenueToday}</h4>`;
   },
 
   checkAvailability(dateRequest, type) {
     if (!dateRequest) return;
-    const formattedDate = dateRequest.replace(/-/g, "/");
+    const formattedDate = dateRequest.replace(/-/g, '/');
     let availRooms = hotel.getRoomAvailabilities(formattedDate);
     if (type) {
       availRooms = hotel.filterRoomsByType(availRooms, type);
@@ -141,24 +138,23 @@ let dom = {
 
   buildSearchResult(availRooms, formattedDate) {
     const searchResults = document.querySelector('.search-listings');
-    searchResults.innerHTML = `<ul class="search-listings"></ul>`;
-    if (!availRooms) {
-      searchResults.innerHTML = 
-        `<h1 class="apology">Sorry, There are No Vacancies for ${formattedDate}</h1>`;
+    searchResults.innerHTML = '<ul class="search-listings"></ul>';
+    if (availRooms.length === 0) {
+      searchResults.innerHTML = `<h1 class="apology">Sorry, There are No Vacancies for ${formattedDate}</h1>`;
       return;
     }
-    let bidetBlurb = "";
-    availRooms.forEach(room => {
-      if (room.bidet) bidetBlurb = " and a Luxury Bidet";
-      else bidetBlurb = "";
+    let bidetBlurb = '';
+    availRooms.forEach((room) => {
+      if (room.bidet) bidetBlurb = ' and a Luxury Bidet';
+      else bidetBlurb = '';
       const uppercaseBedSize = room.bedSize.charAt(0).toUpperCase() + room.bedSize.slice(1);
       this.createResultHTML(searchResults, formattedDate, bidetBlurb, room, uppercaseBedSize);
-    })
+    });
   },
-  
+
   createResultHTML(searchResults, formattedDate, bidetBlurb, room, uppercaseBedSize) {
-      searchResults.insertAdjacentHTML('beforeend',
-        ` <li class="room-result-block">
+    searchResults.insertAdjacentHTML('beforeend',
+      ` <li class="room-result-block">
           <img id="room-image" src="./images/room-${Math.round(Math.random() * 10)}.jpg" alt="Photo of Room">
           <div class="room-information">
             <h3>Room ${room.number}</h3>
@@ -168,12 +164,12 @@ let dom = {
           </div>
           <button class="button make-res-button" id="${room.number}-${formattedDate}">Book This Room</button>
         </li>
-        <div class="divider"></div>`)
+        <div class="divider"></div>`);
   },
 
   buildChartDates() {
     let day = 0;
-    let daysOfWeek = [];
+    const daysOfWeek = [];
     while (daysOfWeek.length < 30) {
       daysOfWeek.push(dom.getDateToday(day));
       day++;
@@ -186,10 +182,9 @@ let dom = {
     const revenues = dates.reduce((revAmounts, date) => {
       revAmounts.push(hotel.getDailyRevenue(date));
       return revAmounts;
-    }, [])
+    }, []);
     managerChart.data.datasets[0].data = revenues;
-  }
-
-}
+  },
+};
 
 export default dom;
