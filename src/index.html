@@ -7,19 +7,21 @@
     <header class="header">
       <h1 class="page-title">the <span id="overlook-head">OVERLOOK</span> at meridian</h1>
       <nav class="navigation hidden">
-        <h2 id="nav-overview">User Overview</h2>
+        <h2 class="hidden" id="nav-manager">Manager</h2>
+        <h2 id="nav-overview">User</h2>
         <h2>|</h2>
         <h2 id="nav-logout">Logout</h2>
       </nav>
     </header>
     <main class="login-page">
       <section class="login-block">
+        <h5>Customer Portal</h5>
         <div class="user-login-input">
-          <p>Username:</p>
+          <label for="username-input">Username:</label>
           <input id="username-input" autocomplete="off" type="text" name="username" value="">
         </div>
         <div class="user-login-input">
-          <p>Password:</p>
+          <label for="password-input">Password:</label>
           <input id="password-input" autocomplete="off" type="password" name="password" value="">
         </div>
         <button id="login-button">GO!</button> 
@@ -32,8 +34,9 @@
           <div class="daily-stats"></div>
           <div class="manager-user-list">
             <form>
-              <select id="customer-list" name="customer-number">
-                <option value="none" selected disabled hidden>Choose Customer:</option>
+              <label for="customer-list">Customer List: </label>
+              <select class="dropdown" id="customer-list" name="customer-number">
+                <option value="none" selected disabled hidden>Choose Customer</option>
               </select>
             </form>
             <button class="button" id="view-user-button">View User Details</button>
@@ -59,7 +62,7 @@
               </article>
             </article>
             <article class="make-new-booking">
-              <h3>Book a New Stay!</h3>
+              <label for="date-input"><h3>Book a New Stay!</h3></label> 
               <input id="date-input" type="date" autocomplete="off">
               <button class="button" id="check-avail-button">Check Availabilities</button>
             </article>
@@ -71,9 +74,9 @@
       <section class="user-search-landing">
         <aside class="search-params">
           <h2>Search Results</h2>
-          <form>
-            <select id="search-filter" name="search-filter">
-              <option value="none" selected disabled hidden>Filter By Room Type:</option>
+          <form class="search-filter-labeling">
+            <label for="search-filter">Filter by Room Type:</label>
+            <select class="dropdown" id="search-filter" name="search-filter">
               <option value="residential suite">Residential Suite</option>
               <option value="junior suite">Junior Suite</option>
               <option value="suite">Suite</option>
